@@ -1,0 +1,9 @@
+Buildfile: C:\Mendix\GitHub\Rest_Responses\src\deployment\build_core.xml
+
+clean:
+   [delete] Deleting directory C:\Mendix\GitHub\Rest_Responses\src\deployment\model
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+
