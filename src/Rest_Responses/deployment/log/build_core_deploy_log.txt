@@ -1,9 +1,0 @@
-Buildfile: C:\Mendix\GitHub\Rest_Responses\src\deployment\build_core.xml
-
-deploy:
-     [copy] Copying 32 files to C:\Mendix\GitHub\Rest_Responses\src\deployment
-
-BUILD SUCCESSFUL
-Total time: 0 seconds
-
-
