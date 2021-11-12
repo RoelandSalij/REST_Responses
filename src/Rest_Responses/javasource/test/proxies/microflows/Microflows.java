@@ -34,4 +34,11 @@ public class Microflows
 		IMendixObject result = (IMendixObject)Core.microflowCall("Test.GetHTTPResponseObject").withParams(params).execute(context);
 		return result == null ? null : system.proxies.HttpResponse.initialize(context, result);
 	}
+	public static void pOST_Language(IContext context, system.proxies.HttpRequest _httpRequest, system.proxies.HttpResponse _httpResponse)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		params.put("httpRequest", _httpRequest == null ? null : _httpRequest.getMendixObject());
+		params.put("httpResponse", _httpResponse == null ? null : _httpResponse.getMendixObject());
+		Core.microflowCall("Test.POST_Language").withParams(params).execute(context);
+	}
 }

@@ -10,25 +10,28 @@ import system.proxies.HttpResponse;
 
 public class RESTResponseProvider {
 
-	private IMendixObject _newHttpResponse;
+	private HttpResponse _newHttpResponse;
 	private IContext _context;
 	
 		
-	public RESTResponseProvider(IContext context,IMendixObject httpResponse, Integer statusCode, String content, String reason ){
+	public RESTResponseProvider(IContext context,IMendixObject httpResponse, Integer statusCode, String content, String reason ) throws CoreException{
 	
+		IMendixObject httpResponseMxObject;
 		_context = context;
 		if(httpResponse ==null) {
-			_newHttpResponse =  Core.instantiate(context, HttpResponse.getType());
+			httpResponseMxObject =  Core.instantiate(context, HttpResponse.getType());
 		}
 		else {
-			_newHttpResponse = httpResponse;
+			httpResponseMxObject = httpResponse;
 		}
 		
-		setResponseAttributes(context, _newHttpResponse, statusCode, content, reason);
+		_newHttpResponse = HttpResponse.initialize(context, httpResponseMxObject);
+		
+		setResponseAttributes(context, _newHttpResponse.getMendixObject(), statusCode, content, reason);
 	}
 	
 	public IMendixObject getResponse() {
-		return _newHttpResponse;
+		return _newHttpResponse.getMendixObject();
 	}
 	
 	public void addHttpHeader(String key, String value) throws CoreException{
@@ -36,12 +39,13 @@ public class RESTResponseProvider {
 		IMendixObject mxObject = Core.instantiate(_context, HttpHeader.getType());
 		mxObject.setValue(_context, HttpHeader.MemberNames.Key.toString(), key);
 		mxObject.setValue(_context, HttpHeader.MemberNames.Value.toString(), value);
-		
-		HttpHeader newHttpHeader = HttpHeader.load(_context, mxObject.getId());
-		newHttpHeader.setHttpHeaders(_context, HttpResponse.load(_context, _newHttpResponse.getId()));
-		
+		Core.getLogger("REST_Responses").trace(String.format("Created new http header:%s %s",key,value));
+
+		if(_newHttpResponse !=null) {
+			HttpHeader newHttpHeader = HttpHeader.load(_context, mxObject.getId());
+			newHttpHeader.setHttpHeaders(_context, _newHttpResponse );
+		}		
 	}
-	
 	
 	private void setResponseAttributes(IContext context,IMendixObject mxObject, Integer statusCode, String content, String reason){
 		
@@ -49,7 +53,5 @@ public class RESTResponseProvider {
 		mxObject.setValue(context, HttpResponse.MemberNames.Content.toString(), content);
 		mxObject.setValue(context, HttpResponse.MemberNames.HttpVersion.toString(), "1.1" );
 		mxObject.setValue(context, HttpResponse.MemberNames.ReasonPhrase.toString(), reason );
-		
 	}
-	
 }
