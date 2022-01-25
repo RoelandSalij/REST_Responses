@@ -7,10 +7,12 @@ public class UserActionsRegistrar
   public void registerActions(IActionRegistrator registrator)
   {
     registrator.bundleComponentLoaded();
+    registrator.registerUserAction(rest_responses.actions.Create____CUSTOM_RESPONSE.class);
     registrator.registerUserAction(rest_responses.actions.Create_200_OK.class);
     registrator.registerUserAction(rest_responses.actions.Create_201_CREATED.class);
     registrator.registerUserAction(rest_responses.actions.Create_202_ACCEPTED.class);
     registrator.registerUserAction(rest_responses.actions.Create_204_NO_CONTENT.class);
+    registrator.registerUserAction(rest_responses.actions.Create_207_MULTI_STATUS.class);
     registrator.registerUserAction(rest_responses.actions.Create_400_BAD_REQUEST.class);
     registrator.registerUserAction(rest_responses.actions.Create_401_UNAUTHORIZED.class);
     registrator.registerUserAction(rest_responses.actions.Create_403_FORBIDDEN.class);

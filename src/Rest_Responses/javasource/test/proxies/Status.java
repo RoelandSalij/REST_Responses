@@ -10,6 +10,7 @@ public enum Status
 	_201_Created(new java.lang.String[][] { new java.lang.String[] { "en_US", "Created" } }),
 	_202_Accepted(new java.lang.String[][] { new java.lang.String[] { "en_US", "Accepted" } }),
 	_204_No_Content(new java.lang.String[][] { new java.lang.String[] { "en_US", "No Content" } }),
+	_207_Multi_Status(new java.lang.String[][] { new java.lang.String[] { "en_US", "Multi-Status" } }),
 	_400_Bad_Request(new java.lang.String[][] { new java.lang.String[] { "en_US", "Bad Request" } }),
 	_401_Unauthorized(new java.lang.String[][] { new java.lang.String[] { "en_US", "Unauthorized" } }),
 	_403_Forbidden(new java.lang.String[][] { new java.lang.String[] { "en_US", "Forbidden" } }),
@@ -19,7 +20,8 @@ public enum Status
 	_409_Conflict(new java.lang.String[][] { new java.lang.String[] { "en_US", "Conflict" } }),
 	_410_Gone(new java.lang.String[][] { new java.lang.String[] { "en_US", "Gone" } }),
 	_429_Rate_Limit_Exceeded(new java.lang.String[][] { new java.lang.String[] { "en_US", "Rate Limit Exceeded" } }),
-	_500_Internal_Server_Error(new java.lang.String[][] { new java.lang.String[] { "en_US", "Internal Server Error" } });
+	_500_Internal_Server_Error(new java.lang.String[][] { new java.lang.String[] { "en_US", "Internal Server Error" } }),
+	Custom(new java.lang.String[][] { new java.lang.String[] { "en_US", "Custom" } });
 
 	private java.util.Map<java.lang.String, java.lang.String> captions;
 

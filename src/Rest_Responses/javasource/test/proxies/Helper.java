@@ -23,6 +23,8 @@ public class Helper
 		Status("Status"),
 		Title("Title"),
 		Detail("Detail"),
+		CustomStatus("CustomStatus"),
+		ContentType("ContentType"),
 		Helper_HttpResponse("Test.Helper_HttpResponse");
 
 		private java.lang.String metaName;
@@ -224,6 +226,78 @@ public class Helper
 	public final void setDetail(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String detail)
 	{
 		getMendixObject().setValue(context, MemberNames.Detail.toString(), detail);
+	}
+
+	/**
+	 * @return value of CustomStatus
+	 */
+	public final java.lang.Integer getCustomStatus()
+	{
+		return getCustomStatus(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of CustomStatus
+	 */
+	public final java.lang.Integer getCustomStatus(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.Integer) getMendixObject().getValue(context, MemberNames.CustomStatus.toString());
+	}
+
+	/**
+	 * Set value of CustomStatus
+	 * @param customstatus
+	 */
+	public final void setCustomStatus(java.lang.Integer customstatus)
+	{
+		setCustomStatus(getContext(), customstatus);
+	}
+
+	/**
+	 * Set value of CustomStatus
+	 * @param context
+	 * @param customstatus
+	 */
+	public final void setCustomStatus(com.mendix.systemwideinterfaces.core.IContext context, java.lang.Integer customstatus)
+	{
+		getMendixObject().setValue(context, MemberNames.CustomStatus.toString(), customstatus);
+	}
+
+	/**
+	 * @return value of ContentType
+	 */
+	public final java.lang.String getContentType()
+	{
+		return getContentType(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of ContentType
+	 */
+	public final java.lang.String getContentType(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.ContentType.toString());
+	}
+
+	/**
+	 * Set value of ContentType
+	 * @param contenttype
+	 */
+	public final void setContentType(java.lang.String contenttype)
+	{
+		setContentType(getContext(), contenttype);
+	}
+
+	/**
+	 * Set value of ContentType
+	 * @param context
+	 * @param contenttype
+	 */
+	public final void setContentType(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String contenttype)
+	{
+		getMendixObject().setValue(context, MemberNames.ContentType.toString(), contenttype);
 	}
 
 	/**
