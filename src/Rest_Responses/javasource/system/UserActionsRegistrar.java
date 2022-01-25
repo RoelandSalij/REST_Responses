@@ -15,6 +15,7 @@ public class UserActionsRegistrar
     registrator.registerUserAction(rest_responses.actions.Create_401_UNAUTHORIZED.class);
     registrator.registerUserAction(rest_responses.actions.Create_403_FORBIDDEN.class);
     registrator.registerUserAction(rest_responses.actions.Create_404_NOT_FOUND.class);
+    registrator.registerUserAction(rest_responses.actions.Create_409_CONFLICT.class);
     registrator.registerUserAction(rest_responses.actions.Create_429_TOO_MANY_REQUESTS.class);
     registrator.registerUserAction(rest_responses.actions.Create_500_INTERNAL_SERVER_ERROR.class);
     registrator.registerUserAction(system.actions.VerifyPassword.class);
