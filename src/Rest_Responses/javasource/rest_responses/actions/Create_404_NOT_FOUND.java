@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.mendix.core.Core;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
+import rest_responses.ErrorMessageProvider;
 import rest_responses.RESTResponseProvider;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import java.util.UUID;
@@ -24,11 +25,13 @@ public class Create_404_NOT_FOUND extends CustomJavaAction<IMendixObject>
 {
 	private IMendixObject __HTTPResponse;
 	private system.proxies.HttpResponse HTTPResponse;
+	private java.lang.String LogMessageDetails;
 
-	public Create_404_NOT_FOUND(IContext context, IMendixObject HTTPResponse)
+	public Create_404_NOT_FOUND(IContext context, IMendixObject HTTPResponse, java.lang.String LogMessageDetails)
 	{
 		super(context);
 		this.__HTTPResponse = HTTPResponse;
+		this.LogMessageDetails = LogMessageDetails;
 	}
 
 	@java.lang.Override
@@ -40,11 +43,12 @@ public class Create_404_NOT_FOUND extends CustomJavaAction<IMendixObject>
 		String instance = UUID.randomUUID().toString();
 		HttpServletRequest servlet = this.getContext().getRuntimeRequest().get().getHttpServletRequest();
 		
-		String jsonResult = rest_responses.proxies.microflows.Microflows.getProblemResponseAsJSON(getContext(), "The resource wasn't found.", null, Integer.toUnsignedLong(404), null,null, instance); 
+		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Not Found", 
+				servlet.getMethod() + " " + servlet.getPathInfo(), 404, null, null, LogMessageDetails);
+
+		Core.getLogger("ProblemJSONModule").error(emp.getLogMessage());
 		
-		Core.getLogger("ProblemJSONModule").warn("404 Resource not found - "+ servlet.getMethod() + " " + servlet.getPathInfo() + " (instance:" + instance + ")");
-		
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 404, jsonResult, "Not Found");
+		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 404, emp.getJSONResponseMessage(), "Not Found");
 		rp.addHttpHeader("Content-type", "application/json");
 		return rp.getResponse();
 		// END USER CODE

@@ -50,4 +50,18 @@ public class Microflows
 		params.put("instance", _instance);
 		return (java.lang.String) Core.microflowCall("REST_Responses.GetProblemResponseAsJSON").withParams(params).execute(context);
 	}
+	public static java.lang.String getValidationErrorsAsString(IContext context, java.util.List<rest_responses.proxies.ValidationError> _validationErrorList)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		java.util.ArrayList<IMendixObject> listparam_validationErrorList = null;
+		if (_validationErrorList != null)
+		{
+			listparam_validationErrorList = new java.util.ArrayList<>();
+			for (rest_responses.proxies.ValidationError obj : _validationErrorList)
+				listparam_validationErrorList.add(obj.getMendixObject());
+		}
+		params.put("ValidationErrorList", listparam_validationErrorList);
+
+		return (java.lang.String) Core.microflowCall("REST_Responses.GetValidationErrorsAsString").withParams(params).execute(context);
+	}
 }

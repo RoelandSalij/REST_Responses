@@ -13,6 +13,7 @@ import com.mendix.core.Core;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
+import rest_responses.ErrorMessageProvider;
 import rest_responses.RESTResponseProvider;
 import java.util.UUID;
 
@@ -28,8 +29,9 @@ public class Create_400_BAD_REQUEST extends CustomJavaAction<IMendixObject>
 	private java.lang.String TypeURI;
 	private java.util.List<IMendixObject> __ValidationErrors;
 	private java.util.List<rest_responses.proxies.ValidationError> ValidationErrors;
+	private java.lang.String LogMessageDetails;
 
-	public Create_400_BAD_REQUEST(IContext context, java.lang.String Title, IMendixObject HTTPResponse, java.lang.String Detail, java.lang.String TypeURI, java.util.List<IMendixObject> ValidationErrors)
+	public Create_400_BAD_REQUEST(IContext context, java.lang.String Title, IMendixObject HTTPResponse, java.lang.String Detail, java.lang.String TypeURI, java.util.List<IMendixObject> ValidationErrors, java.lang.String LogMessageDetails)
 	{
 		super(context);
 		this.Title = Title;
@@ -37,6 +39,7 @@ public class Create_400_BAD_REQUEST extends CustomJavaAction<IMendixObject>
 		this.Detail = Detail;
 		this.TypeURI = TypeURI;
 		this.__ValidationErrors = ValidationErrors;
+		this.LogMessageDetails = LogMessageDetails;
 	}
 
 	@java.lang.Override
@@ -50,13 +53,16 @@ public class Create_400_BAD_REQUEST extends CustomJavaAction<IMendixObject>
 				this.ValidationErrors.add(rest_responses.proxies.ValidationError.initialize(getContext(), __ValidationErrorsElement));
 
 		// BEGIN USER CODE
-		String instance = UUID.randomUUID().toString();
 		
-		String jsonResult = rest_responses.proxies.microflows.Microflows.getProblemResponseAsJSON(getContext(), this.Title, this.Detail, Integer.toUnsignedLong(400), this.TypeURI,this.ValidationErrors, instance); 
+		if(Title == null || Title.isEmpty()) {
+			Title = "Bad Request";
+		}
 		
-		Core.getLogger("ProblemJSONModule").error("400 " + this.Title + " (instance:" + instance + ")");
+		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), Title, Detail, 400, TypeURI, ValidationErrors, LogMessageDetails);
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 400, jsonResult, "Bad Request");
+		Core.getLogger("ProblemJSONModule").error(emp.getLogMessage());
+		
+		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 400, emp.getJSONResponseMessage(), "Bad Request");
 		
 		rp.addHttpHeader("Content-type", "application/problem+json");
 		return rp.getResponse();

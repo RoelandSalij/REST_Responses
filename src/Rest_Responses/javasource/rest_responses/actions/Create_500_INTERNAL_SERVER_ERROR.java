@@ -13,6 +13,7 @@ import com.mendix.core.Core;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
+import rest_responses.ErrorMessageProvider;
 import rest_responses.RESTResponseProvider;
 import java.util.UUID;
 
@@ -24,12 +25,14 @@ public class Create_500_INTERNAL_SERVER_ERROR extends CustomJavaAction<IMendixOb
 	private java.lang.String Content;
 	private IMendixObject __HTTPResponse;
 	private system.proxies.HttpResponse HTTPResponse;
+	private java.lang.String LogMessage;
 
-	public Create_500_INTERNAL_SERVER_ERROR(IContext context, java.lang.String Content, IMendixObject HTTPResponse)
+	public Create_500_INTERNAL_SERVER_ERROR(IContext context, java.lang.String Content, IMendixObject HTTPResponse, java.lang.String LogMessage)
 	{
 		super(context);
 		this.Content = Content;
 		this.__HTTPResponse = HTTPResponse;
+		this.LogMessage = LogMessage;
 	}
 
 	@java.lang.Override
@@ -39,13 +42,11 @@ public class Create_500_INTERNAL_SERVER_ERROR extends CustomJavaAction<IMendixOb
 
 		// BEGIN USER CODE
 		
-		String instance = UUID.randomUUID().toString();
-		
-		String jsonResult = rest_responses.proxies.microflows.Microflows.getProblemResponseAsJSON(getContext(), "Internal Server Error", this.Content, Integer.toUnsignedLong(500), null,null, instance); 
-		
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 500, jsonResult, "Internal Server Error");
+		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Internal Server Error",  this.Content, 500, null, null, LogMessage);
+
+		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 500, emp.getJSONResponseMessage(), "Internal Server Error");
 	
-		Core.getLogger("ProblemJSONModule").error("500 Internal Server Error:" + this.Content + "(instance:" + instance + ")");
+		Core.getLogger("ProblemJSONModule").error(emp.getJSONResponseMessage());
 		
 		rp.addHttpHeader("Content-type", "application/json");
 		return rp.getResponse();

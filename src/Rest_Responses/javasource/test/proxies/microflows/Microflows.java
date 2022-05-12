@@ -15,6 +15,35 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 public class Microflows
 {
 	// These are the microflows for the Test module
+	public static void addValidationErrorObject(IContext context, java.util.List<rest_responses.proxies.ValidationError> _validationErrorList, java.lang.String _name, java.lang.String _reason)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		java.util.ArrayList<IMendixObject> listparam_validationErrorList = null;
+		if (_validationErrorList != null)
+		{
+			listparam_validationErrorList = new java.util.ArrayList<>();
+			for (rest_responses.proxies.ValidationError obj : _validationErrorList)
+				listparam_validationErrorList.add(obj.getMendixObject());
+		}
+		params.put("ValidationErrorList", listparam_validationErrorList);
+
+		params.put("name", _name);
+		params.put("reason", _reason);
+		Core.microflowCall("Test.AddValidationErrorObject").withParams(params).execute(context);
+	}
+	public static java.util.List<rest_responses.proxies.ValidationError> createDummyValidationErrorList(IContext context)
+	{
+		Map<java.lang.String, Object> params = new HashMap<>();
+		java.util.List<IMendixObject> objs = Core.microflowCall("Test.CreateDummyValidationErrorList").withParams(params).execute(context);
+		java.util.List<rest_responses.proxies.ValidationError> result = null;
+		if (objs != null)
+		{
+			result = new java.util.ArrayList<>();
+			for (IMendixObject obj : objs)
+				result.add(rest_responses.proxies.ValidationError.initialize(context, obj));
+		}
+		return result;
+	}
 	public static test.proxies.Helper dS_Test(IContext context)
 	{
 		Map<java.lang.String, Object> params = new HashMap<>();

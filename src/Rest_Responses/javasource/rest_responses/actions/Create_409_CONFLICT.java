@@ -13,6 +13,7 @@ import com.mendix.core.Core;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
+import rest_responses.ErrorMessageProvider;
 import rest_responses.RESTResponseProvider;
 import java.util.UUID;
 
@@ -26,15 +27,15 @@ public class Create_409_CONFLICT extends CustomJavaAction<IMendixObject>
 {
 	private IMendixObject __HTTPResponse;
 	private system.proxies.HttpResponse HTTPResponse;
-	private java.lang.String Title;
 	private java.lang.String Detail;
+	private java.lang.String LogMessageDetails;
 
-	public Create_409_CONFLICT(IContext context, IMendixObject HTTPResponse, java.lang.String Title, java.lang.String Detail)
+	public Create_409_CONFLICT(IContext context, IMendixObject HTTPResponse, java.lang.String Detail, java.lang.String LogMessageDetails)
 	{
 		super(context);
 		this.__HTTPResponse = HTTPResponse;
-		this.Title = Title;
 		this.Detail = Detail;
+		this.LogMessageDetails = LogMessageDetails;
 	}
 
 	@java.lang.Override
@@ -43,13 +44,11 @@ public class Create_409_CONFLICT extends CustomJavaAction<IMendixObject>
 		this.HTTPResponse = __HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
 
 		// BEGIN USER CODE
-		String instance = UUID.randomUUID().toString();
+		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Conflict", this.Detail, 409, null, null, LogMessageDetails);
 		
-		String jsonResult = rest_responses.proxies.microflows.Microflows.getProblemResponseAsJSON(getContext(), this.Title, this.Detail, Integer.toUnsignedLong(409), null,null, instance); 
+		Core.getLogger("ProblemJSONModule").error(emp.getLogMessage());
 		
-		Core.getLogger("ProblemJSONModule").warn("409 "+this.Title + " (instance:" + instance + ")");
-		
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 409, jsonResult, "Conflict");
+		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 409, emp.getJSONResponseMessage(), "Conflict");
 		rp.addHttpHeader("Content-type", "application/json");
 		return rp.getResponse();
 

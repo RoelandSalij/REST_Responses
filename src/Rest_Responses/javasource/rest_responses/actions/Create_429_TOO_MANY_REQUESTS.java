@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.mendix.core.Core;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
+import rest_responses.ErrorMessageProvider;
 import rest_responses.RESTResponseProvider;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 
@@ -23,11 +24,17 @@ public class Create_429_TOO_MANY_REQUESTS extends CustomJavaAction<IMendixObject
 {
 	private IMendixObject __HTTPResponse;
 	private system.proxies.HttpResponse HTTPResponse;
+	private java.lang.String Detail;
+	private java.lang.String RetryAfter;
+	private java.lang.String LogMessageDetails;
 
-	public Create_429_TOO_MANY_REQUESTS(IContext context, IMendixObject HTTPResponse)
+	public Create_429_TOO_MANY_REQUESTS(IContext context, IMendixObject HTTPResponse, java.lang.String Detail, java.lang.String RetryAfter, java.lang.String LogMessageDetails)
 	{
 		super(context);
 		this.__HTTPResponse = HTTPResponse;
+		this.Detail = Detail;
+		this.RetryAfter = RetryAfter;
+		this.LogMessageDetails = LogMessageDetails;
 	}
 
 	@java.lang.Override
@@ -37,9 +44,11 @@ public class Create_429_TOO_MANY_REQUESTS extends CustomJavaAction<IMendixObject
 
 		// BEGIN USER CODE
 		HttpServletRequest servlet = this.getContext().getRuntimeRequest().get().getHttpServletRequest();
+		
+		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Too Many Requests", servlet.getMethod() + " " + servlet.getPathInfo(), 429, null, null, LogMessageDetails);
 
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 429, "", "Too Many Requests");
-		Core.getLogger("ProblemJSONModule").error("429 Too Many Requests - " + servlet.getMethod() + " " + servlet.getPathInfo());
+		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 429, emp.getJSONResponseMessage(), "Too Many Requests");
+		Core.getLogger("ProblemJSONModule").error(emp.getLogMessage());
 		return rp.getResponse();
 		// END USER CODE
 	}

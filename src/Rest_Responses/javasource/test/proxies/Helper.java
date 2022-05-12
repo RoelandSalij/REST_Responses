@@ -25,6 +25,7 @@ public class Helper
 		Detail("Detail"),
 		CustomStatus("CustomStatus"),
 		ContentType("ContentType"),
+		Body("Body"),
 		Helper_HttpResponse("Test.Helper_HttpResponse");
 
 		private java.lang.String metaName;
@@ -298,6 +299,42 @@ public class Helper
 	public final void setContentType(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String contenttype)
 	{
 		getMendixObject().setValue(context, MemberNames.ContentType.toString(), contenttype);
+	}
+
+	/**
+	 * @return value of Body
+	 */
+	public final java.lang.String getBody()
+	{
+		return getBody(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of Body
+	 */
+	public final java.lang.String getBody(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.Body.toString());
+	}
+
+	/**
+	 * Set value of Body
+	 * @param body
+	 */
+	public final void setBody(java.lang.String body)
+	{
+		setBody(getContext(), body);
+	}
+
+	/**
+	 * Set value of Body
+	 * @param context
+	 * @param body
+	 */
+	public final void setBody(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String body)
+	{
+		getMendixObject().setValue(context, MemberNames.Body.toString(), body);
 	}
 
 	/**
