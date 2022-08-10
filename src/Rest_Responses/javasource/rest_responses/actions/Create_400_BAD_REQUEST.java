@@ -60,8 +60,6 @@ public class Create_400_BAD_REQUEST extends CustomJavaAction<IMendixObject>
 		
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), Title, Detail, 400, TypeURI, ValidationErrors, LogMessageDetails);
 		
-		Core.getLogger("ProblemJSONModule").error(emp.getLogMessage());
-		
 		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 400, emp.getJSONResponseMessage(), "Bad Request");
 		
 		rp.addHttpHeader("Content-type", "application/problem+json");

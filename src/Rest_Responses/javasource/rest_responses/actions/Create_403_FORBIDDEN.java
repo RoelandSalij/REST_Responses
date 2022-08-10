@@ -45,8 +45,6 @@ public class Create_403_FORBIDDEN extends CustomJavaAction<IMendixObject>
 		// BEGIN USER CODE
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Forbidden", this.Detail, 403, null, null, LogMessageDetails);
 		
-		Core.getLogger("ProblemJSONModule").error(emp.getLogMessage());
-		
 		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 403, emp.getJSONResponseMessage(), "Forbidden");
 		
 		rp.addHttpHeader("Content-type", "application/json");

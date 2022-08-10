@@ -47,7 +47,6 @@ public class Create_401_UNAUTHORIZED extends CustomJavaAction<IMendixObject>
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Unauthorized", 
 				this.Details, status, null, null, LogMessageDetails);
 		
-		Core.getLogger("ProblemJSONModule").error(emp.getLogMessage());
 		
 		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, status, emp.getJSONResponseMessage(), "Unauthorized");
 		rp.addHttpHeader("Content-type", "application/json");

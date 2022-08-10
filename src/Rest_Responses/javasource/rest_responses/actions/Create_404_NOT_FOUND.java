@@ -45,8 +45,6 @@ public class Create_404_NOT_FOUND extends CustomJavaAction<IMendixObject>
 		
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Not Found", 
 				servlet.getMethod() + " " + servlet.getPathInfo(), 404, null, null, LogMessageDetails);
-
-		Core.getLogger("ProblemJSONModule").error(emp.getLogMessage());
 		
 		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 404, emp.getJSONResponseMessage(), "Not Found");
 		rp.addHttpHeader("Content-type", "application/json");
