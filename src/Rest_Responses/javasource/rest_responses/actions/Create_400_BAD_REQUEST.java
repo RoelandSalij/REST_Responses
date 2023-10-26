@@ -45,12 +45,13 @@ public class Create_400_BAD_REQUEST extends CustomJavaAction<IMendixObject>
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.HTTPResponse = __HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
+		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
 
-		this.ValidationErrors = new java.util.ArrayList<rest_responses.proxies.ValidationError>();
-		if (__ValidationErrors != null)
-			for (IMendixObject __ValidationErrorsElement : __ValidationErrors)
-				this.ValidationErrors.add(rest_responses.proxies.ValidationError.initialize(getContext(), __ValidationErrorsElement));
+		this.ValidationErrors = java.util.Optional.ofNullable(this.__ValidationErrors)
+			.orElse(java.util.Collections.emptyList())
+			.stream()
+			.map(__ValidationErrorsElement -> rest_responses.proxies.ValidationError.initialize(getContext(), __ValidationErrorsElement))
+			.collect(java.util.stream.Collectors.toList());
 
 		// BEGIN USER CODE
 		
@@ -62,13 +63,13 @@ public class Create_400_BAD_REQUEST extends CustomJavaAction<IMendixObject>
 		
 		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 400, emp.getJSONResponseMessage(), "Bad Request");
 		
-		rp.addHttpHeader("Content-type", "application/problem+json");
 		return rp.getResponse();
 		// END USER CODE
 	}
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

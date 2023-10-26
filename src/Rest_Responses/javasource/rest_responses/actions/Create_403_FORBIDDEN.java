@@ -40,14 +40,13 @@ public class Create_403_FORBIDDEN extends CustomJavaAction<IMendixObject>
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.HTTPResponse = __HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
+		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
 
 		// BEGIN USER CODE
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Forbidden", this.Detail, 403, null, null, LogMessageDetails);
 		
 		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 403, emp.getJSONResponseMessage(), "Forbidden");
 		
-		rp.addHttpHeader("Content-type", "application/json");
 		return rp.getResponse();
 
 		// END USER CODE
@@ -55,6 +54,7 @@ public class Create_403_FORBIDDEN extends CustomJavaAction<IMendixObject>
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

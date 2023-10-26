@@ -3,3 +3,12 @@
 src/Rest_Responses/deployment/*
 *.launch
 *.lock
+proxies
+src/Rest_Responses/javasource/system*
+src/Rest_Responses/javasource/test*
+src/Rest_Responses/project-settings.user.json
+src/Rest_Responses/theme*
+src/Rest_Responses/.classpath
+javasource/administration
+src/.project
+src/Rest_Responses/.project

@@ -37,7 +37,7 @@ public class Create_404_NOT_FOUND extends CustomJavaAction<IMendixObject>
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.HTTPResponse = __HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
+		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
 
 		// BEGIN USER CODE
 		String instance = UUID.randomUUID().toString();
@@ -47,13 +47,13 @@ public class Create_404_NOT_FOUND extends CustomJavaAction<IMendixObject>
 				servlet.getMethod() + " " + servlet.getPathInfo(), 404, null, null, LogMessageDetails);
 		
 		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 404, emp.getJSONResponseMessage(), "Not Found");
-		rp.addHttpHeader("Content-type", "application/json");
 		return rp.getResponse();
 		// END USER CODE
 	}
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

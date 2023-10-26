@@ -12,12 +12,12 @@ public class RESTResponseProvider {
 
 	private HttpResponse _newHttpResponse;
 	private IContext _context;
-	
 		
 	public RESTResponseProvider(IContext context,IMendixObject httpResponse, Integer statusCode, String content, String reason ) throws CoreException{
 	
 		IMendixObject httpResponseMxObject;
 		_context = context;
+	
 		if(httpResponse ==null) {
 			httpResponseMxObject =  Core.instantiate(context, HttpResponse.getType());
 		}
@@ -28,6 +28,7 @@ public class RESTResponseProvider {
 		_newHttpResponse = HttpResponse.initialize(context, httpResponseMxObject);
 		
 		setResponseAttributes(context, _newHttpResponse.getMendixObject(), statusCode, content, reason);
+		setContentTypeHeader(statusCode);
 	}
 	
 	public IMendixObject getResponse() {
@@ -53,5 +54,17 @@ public class RESTResponseProvider {
 		mxObject.setValue(context, HttpResponse.MemberNames.Content.toString(), content);
 		mxObject.setValue(context, HttpResponse.MemberNames.HttpVersion.toString(), "1.1" );
 		mxObject.setValue(context, HttpResponse.MemberNames.ReasonPhrase.toString(), reason );
+	}
+	
+	private void setContentTypeHeader(Integer statusCode) throws CoreException
+	{
+		if(statusCode == 400 || statusCode == 500 || 
+			rest_responses.proxies.constants.Constants.getEnableMendixErrorFormat()==false) {
+			this.addHttpHeader("Content-type", "application/problem+json");
+		}
+		else if (statusCode != 204) {
+			this.addHttpHeader("Content-type", "application/json");
+		}
+		
 	}
 }

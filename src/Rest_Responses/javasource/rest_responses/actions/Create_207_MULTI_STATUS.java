@@ -35,16 +35,12 @@ public class Create_207_MULTI_STATUS extends CustomJavaAction<IMendixObject>
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.HTTPResponse = __HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
+		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
 
 		// BEGIN USER CODE
 		
 		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse,  207, this.Content, "MULTI-STATUS");
-		
-		if(this.ContentType == null || this.ContentType.isEmpty()) {
-			this.ContentType = "application/json";
-		}
-		
+
 		rp.addHttpHeader("Content-type", this.ContentType);
 		return rp.getResponse();
 		// END USER CODE
@@ -52,6 +48,7 @@ public class Create_207_MULTI_STATUS extends CustomJavaAction<IMendixObject>
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

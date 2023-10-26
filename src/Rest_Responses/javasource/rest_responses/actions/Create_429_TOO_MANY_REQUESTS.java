@@ -40,7 +40,7 @@ public class Create_429_TOO_MANY_REQUESTS extends CustomJavaAction<IMendixObject
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.HTTPResponse = __HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
+		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
 
 		// BEGIN USER CODE
 		HttpServletRequest servlet = this.getContext().getRuntimeRequest().get().getHttpServletRequest();
@@ -55,6 +55,7 @@ public class Create_429_TOO_MANY_REQUESTS extends CustomJavaAction<IMendixObject
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

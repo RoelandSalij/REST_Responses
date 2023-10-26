@@ -38,7 +38,7 @@ public class Create_500_INTERNAL_SERVER_ERROR extends CustomJavaAction<IMendixOb
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.HTTPResponse = __HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
+		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
 
 		// BEGIN USER CODE
 		
@@ -48,13 +48,13 @@ public class Create_500_INTERNAL_SERVER_ERROR extends CustomJavaAction<IMendixOb
 	
 		Core.getLogger("ProblemJSONModule").error(emp.getJSONResponseMessage());
 		
-		rp.addHttpHeader("Content-type", "application/json");
 		return rp.getResponse();
 		// END USER CODE
 	}
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()

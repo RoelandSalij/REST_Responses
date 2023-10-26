@@ -41,13 +41,12 @@ public class Create_409_CONFLICT extends CustomJavaAction<IMendixObject>
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.HTTPResponse = __HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
+		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
 
 		// BEGIN USER CODE
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Conflict", this.Detail, 409, null, null, LogMessageDetails);
 		
 		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 409, emp.getJSONResponseMessage(), "Conflict");
-		rp.addHttpHeader("Content-type", "application/json");
 		return rp.getResponse();
 
 		// END USER CODE
@@ -55,6 +54,7 @@ public class Create_409_CONFLICT extends CustomJavaAction<IMendixObject>
 
 	/**
 	 * Returns a string representation of this action
+	 * @return a string representation of this action
 	 */
 	@java.lang.Override
 	public java.lang.String toString()
