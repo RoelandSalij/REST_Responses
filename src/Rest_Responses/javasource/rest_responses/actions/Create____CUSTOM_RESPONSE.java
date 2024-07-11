@@ -43,13 +43,14 @@ public class Create____CUSTOM_RESPONSE extends CustomJavaAction<IMendixObject>
 		
 		if(this.Code>=100 && this.Code <=599) {
 
+			String contentType = this.ContentType;
 			RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, this.Code.intValue(), this.Content,  getReason(this.Code.intValue()));
 			
-			if(this.ContentType.isEmpty()) {
-				this.ContentType = "application/json";
+			if(contentType.isEmpty()) {
+				contentType = "application/json";
 			}
 			
-			rp.addHttpHeader("Content-type", this.ContentType);
+			rp.addHttpHeader("Content-type", contentType);
 			return rp.getResponse();
 		}
 		else {

@@ -36,7 +36,7 @@ public class Create_202_ACCEPTED extends CustomJavaAction<IMendixObject>
 		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
 
 		// BEGIN USER CODE
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(),__HTTPResponse, 202, this.Content, "Accepted");
+		RESTResponseProvider rp = new RESTResponseProvider(this.context(),HTTPResponse.getMendixObject(), 202, this.Content, "Accepted");
 		return rp.getResponse();
 		// END USER CODE
 	}

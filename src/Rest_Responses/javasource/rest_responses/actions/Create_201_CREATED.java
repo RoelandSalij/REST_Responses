@@ -39,7 +39,7 @@ public class Create_201_CREATED extends CustomJavaAction<IMendixObject>
 
 		// BEGIN USER CODE
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(),__HTTPResponse, 201, this.Content, "Created");
+		RESTResponseProvider rp = new RESTResponseProvider(this.context(), HTTPResponse.getMendixObject(), 201, this.Content, "Created");
 		
 		if( Location != null && "" != Location) {
 			rp.addHttpHeader("Location", this.Location);

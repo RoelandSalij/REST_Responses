@@ -45,16 +45,8 @@ public class Create_400_BAD_REQUEST extends CustomJavaAction<IMendixObject>
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		String title = this.Title;
-		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
-
-		this.ValidationErrors = java.util.Optional.ofNullable(this.__ValidationErrors)
-			.orElse(java.util.Collections.emptyList())
-			.stream()
-			.map(__ValidationErrorsElement -> rest_responses.proxies.ValidationError.initialize(getContext(), __ValidationErrorsElement))
-			.collect(java.util.stream.Collectors.toList());
-
 		// BEGIN USER CODE
+		String title = this.Title;
 		
 		if(title == null || title.isEmpty()) {
 			title = "Bad Request";
@@ -62,7 +54,7 @@ public class Create_400_BAD_REQUEST extends CustomJavaAction<IMendixObject>
 		
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), title, Detail, 400, TypeURI, ValidationErrors, LogMessageDetails);
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 400, emp.getJSONResponseMessage(), "Bad Request");
+		RESTResponseProvider rp = new RESTResponseProvider(this.context(), HTTPResponse.getMendixObject(), 400, emp.getJSONResponseMessage(), "Bad Request");
 		
 		return rp.getResponse();
 		// END USER CODE

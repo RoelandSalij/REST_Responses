@@ -44,7 +44,7 @@ public class Create_500_INTERNAL_SERVER_ERROR extends CustomJavaAction<IMendixOb
 		
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Internal Server Error",  this.Content, 500, null, null, LogMessage);
 
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 500, emp.getJSONResponseMessage(), "Internal Server Error");
+		RESTResponseProvider rp = new RESTResponseProvider(this.context(), HTTPResponse.getMendixObject(), 500, emp.getJSONResponseMessage(), "Internal Server Error");
 	
 		Core.getLogger("ProblemJSONModule").error(emp.getJSONResponseMessage());
 		

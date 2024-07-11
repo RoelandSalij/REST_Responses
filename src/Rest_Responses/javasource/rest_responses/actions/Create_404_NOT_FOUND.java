@@ -40,13 +40,12 @@ public class Create_404_NOT_FOUND extends CustomJavaAction<IMendixObject>
 		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
 
 		// BEGIN USER CODE
-		String instance = UUID.randomUUID().toString();
 		HttpServletRequest servlet = this.getContext().getRuntimeRequest().get().getHttpServletRequest();
 		
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Not Found", 
 				servlet.getMethod() + " " + servlet.getPathInfo(), 404, null, null, LogMessageDetails);
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 404, emp.getJSONResponseMessage(), "Not Found");
+		RESTResponseProvider rp = new RESTResponseProvider(this.context(), HTTPResponse.getMendixObject(), 404, emp.getJSONResponseMessage(), "Not Found");
 		return rp.getResponse();
 		// END USER CODE
 	}
