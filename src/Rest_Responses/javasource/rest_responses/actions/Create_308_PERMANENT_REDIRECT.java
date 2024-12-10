@@ -15,7 +15,7 @@ import rest_responses.RESTResponseProvider;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 /**
- * The request has been fulfilled and resulted in a new resource being created..
+ * The reuested resource has been permanently moved to the URL specified in the Location header
  */
 public class Create_308_PERMANENT_REDIRECT extends CustomJavaAction<IMendixObject>
 {
@@ -37,7 +37,7 @@ public class Create_308_PERMANENT_REDIRECT extends CustomJavaAction<IMendixObjec
 
 		// BEGIN USER CODE
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), HTTPResponse.getMendixObject(), 201, "", "Created");
+		RESTResponseProvider rp = new RESTResponseProvider(this.context(), HTTPResponse.getMendixObject(), 308, "", "Permanent Redirect");
 		
 		if( Location != null && "" != Location) {
 			rp.addHttpHeader("Location", this.Location);
