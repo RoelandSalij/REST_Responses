@@ -13,31 +13,37 @@ import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 import rest_responses.RESTResponseProvider;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * The request was successful and the response body contains the representation requested.
  */
-public class Create_200_OK extends CustomJavaAction<IMendixObject>
+public class Create_200_OK extends UserAction<IMendixObject>
 {
-	private IMendixObject __HTTPResponse;
-	private system.proxies.HttpResponse HTTPResponse;
-	private java.lang.String Content;
+	/** @deprecated use HTTPResponse.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __HTTPResponse;
+	private final system.proxies.HttpResponse HTTPResponse;
+	private final java.lang.String Content;
 
-	public Create_200_OK(IContext context, IMendixObject HTTPResponse, java.lang.String Content)
+	public Create_200_OK(
+		IContext context,
+		IMendixObject _hTTPResponse,
+		java.lang.String _content
+	)
 	{
 		super(context);
-		this.__HTTPResponse = HTTPResponse;
-		this.Content = Content;
+		this.__HTTPResponse = _hTTPResponse;
+		this.HTTPResponse = _hTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), _hTTPResponse);
+		this.Content = _content;
 	}
 
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
-
 		// BEGIN USER CODE
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), HTTPResponse.getMendixObject(),  200, this.Content, "OK");
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), HTTPResponse,  200, this.Content, "OK");
 
 		return rp.getResponse();
 		// END USER CODE

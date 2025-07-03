@@ -16,38 +16,46 @@ import com.mendix.webui.CustomJavaAction;
 import rest_responses.ErrorMessageProvider;
 import rest_responses.RESTResponseProvider;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * Returned when a request cannot be served due to the application its rate limit having been exhausted for the resource.
  */
-public class Create_429_TOO_MANY_REQUESTS extends CustomJavaAction<IMendixObject>
+public class Create_429_TOO_MANY_REQUESTS extends UserAction<IMendixObject>
 {
-	private IMendixObject __HTTPResponse;
-	private system.proxies.HttpResponse HTTPResponse;
-	private java.lang.String Detail;
-	private java.lang.String RetryAfter;
-	private java.lang.String LogMessageDetails;
+	/** @deprecated use HTTPResponse.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __HTTPResponse;
+	private final system.proxies.HttpResponse HTTPResponse;
+	private final java.lang.String Detail;
+	private final java.lang.String RetryAfter;
+	private final java.lang.String LogMessageDetails;
 
-	public Create_429_TOO_MANY_REQUESTS(IContext context, IMendixObject HTTPResponse, java.lang.String Detail, java.lang.String RetryAfter, java.lang.String LogMessageDetails)
+	public Create_429_TOO_MANY_REQUESTS(
+		IContext context,
+		IMendixObject _hTTPResponse,
+		java.lang.String _detail,
+		java.lang.String _retryAfter,
+		java.lang.String _logMessageDetails
+	)
 	{
 		super(context);
-		this.__HTTPResponse = HTTPResponse;
-		this.Detail = Detail;
-		this.RetryAfter = RetryAfter;
-		this.LogMessageDetails = LogMessageDetails;
+		this.__HTTPResponse = _hTTPResponse;
+		this.HTTPResponse = _hTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), _hTTPResponse);
+		this.Detail = _detail;
+		this.RetryAfter = _retryAfter;
+		this.LogMessageDetails = _logMessageDetails;
 	}
 
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
-
 		// BEGIN USER CODE
 		HttpServletRequest servlet = this.getContext().getRuntimeRequest().get().getHttpServletRequest();
 		
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Too Many Requests", servlet.getMethod() + " " + servlet.getPathInfo(), 429, null, null, LogMessageDetails);
 
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), HTTPResponse.getMendixObject(), 429, emp.getJSONResponseMessage(), "Too Many Requests");
+		RESTResponseProvider rp = new RESTResponseProvider(this.context(), HTTPResponse, 429, emp.getJSONResponseMessage(), "Too Many Requests");
 
 		return rp.getResponse();
 		// END USER CODE

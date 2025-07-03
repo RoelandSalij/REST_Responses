@@ -16,36 +16,43 @@ import com.mendix.webui.CustomJavaAction;
 import rest_responses.ErrorMessageProvider;
 import rest_responses.RESTResponseProvider;
 import java.util.UUID;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * A 403 error response indicates that the client's request is formed correctly, but the REST API refuses to honor it i.e. the user does not have the necessary permissions for the resource. A 403 response is not a case of insufficient client credentials; that would be 401 (Unauthorized).
  * 
  * Authentication will not help and the request SHOULD NOT be repeated. Unlike a 401 Unauthorized response, authenticating will make no difference.
  */
-public class Create_403_FORBIDDEN extends CustomJavaAction<IMendixObject>
+public class Create_403_FORBIDDEN extends UserAction<IMendixObject>
 {
-	private IMendixObject __HTTPResponse;
-	private system.proxies.HttpResponse HTTPResponse;
-	private java.lang.String Detail;
-	private java.lang.String LogMessageDetails;
+	/** @deprecated use HTTPResponse.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __HTTPResponse;
+	private final system.proxies.HttpResponse HTTPResponse;
+	private final java.lang.String Detail;
+	private final java.lang.String LogMessageDetails;
 
-	public Create_403_FORBIDDEN(IContext context, IMendixObject HTTPResponse, java.lang.String Detail, java.lang.String LogMessageDetails)
+	public Create_403_FORBIDDEN(
+		IContext context,
+		IMendixObject _hTTPResponse,
+		java.lang.String _detail,
+		java.lang.String _logMessageDetails
+	)
 	{
 		super(context);
-		this.__HTTPResponse = HTTPResponse;
-		this.Detail = Detail;
-		this.LogMessageDetails = LogMessageDetails;
+		this.__HTTPResponse = _hTTPResponse;
+		this.HTTPResponse = _hTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), _hTTPResponse);
+		this.Detail = _detail;
+		this.LogMessageDetails = _logMessageDetails;
 	}
 
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
-
 		// BEGIN USER CODE
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Forbidden", this.Detail, 403, null, null, LogMessageDetails);
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), HTTPResponse.getMendixObject(), 403, emp.getJSONResponseMessage(), "Forbidden");
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), HTTPResponse, 403, emp.getJSONResponseMessage(), "Forbidden");
 		
 		return rp.getResponse();
 

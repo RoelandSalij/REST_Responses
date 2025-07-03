@@ -10,41 +10,49 @@
 package rest_responses.actions;
 
 import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.webui.CustomJavaAction;
 import rest_responses.RESTResponseProvider;
+import system.proxies.HttpResponse;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * This action provides the option to set any HTTP status that is not covered by the other actions.
  */
-public class Create____CUSTOM_RESPONSE extends CustomJavaAction<IMendixObject>
+public class Create____CUSTOM_RESPONSE extends UserAction<IMendixObject>
 {
-	private IMendixObject __HTTPResponse;
-	private system.proxies.HttpResponse HTTPResponse;
-	private java.lang.Long Code;
-	private java.lang.String Content;
-	private java.lang.String ContentType;
+	/** @deprecated use HTTPResponse.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __HTTPResponse;
+	private final system.proxies.HttpResponse HTTPResponse;
+	private final java.lang.Long Code;
+	private final java.lang.String Content;
+	private final java.lang.String ContentType;
 
-	public Create____CUSTOM_RESPONSE(IContext context, IMendixObject HTTPResponse, java.lang.Long Code, java.lang.String Content, java.lang.String ContentType)
+	public Create____CUSTOM_RESPONSE(
+		IContext context,
+		IMendixObject _hTTPResponse,
+		java.lang.Long _code,
+		java.lang.String _content,
+		java.lang.String _contentType
+	)
 	{
 		super(context);
-		this.__HTTPResponse = HTTPResponse;
-		this.Code = Code;
-		this.Content = Content;
-		this.ContentType = ContentType;
+		this.__HTTPResponse = _hTTPResponse;
+		this.HTTPResponse = _hTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), _hTTPResponse);
+		this.Code = _code;
+		this.Content = _content;
+		this.ContentType = _contentType;
 	}
 
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
-
 		// BEGIN USER CODE
 		
 		if(this.Code>=100 && this.Code <=599) {
 
 			String contentType = this.ContentType;
-			RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, this.Code.intValue(), this.Content,  getReason(this.Code.intValue()));
+			RESTResponseProvider rp = new RESTResponseProvider(this.context(), HTTPResponse, this.Code.intValue(), this.Content,  getReason(this.Code.intValue()));
 			
 			if(contentType.isEmpty()) {
 				contentType = "application/json";

@@ -2,9 +2,11 @@ package rest_responses;
 
 import com.mendix.core.Core;
 import com.mendix.core.CoreException;
+
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 
+import rest_responses.proxies.constants.Constants;
 import system.proxies.HttpHeader;
 import system.proxies.HttpResponse;
 
@@ -13,7 +15,7 @@ public class RESTResponseProvider {
 	private HttpResponse _newHttpResponse;
 	private IContext _context;
 		
-	public RESTResponseProvider(IContext context,IMendixObject httpResponse, Integer statusCode, String content, String reason ) throws CoreException{
+	public RESTResponseProvider(IContext context,HttpResponse httpResponse, Integer statusCode, String content, String reason ) throws CoreException{
 	
 		IMendixObject httpResponseMxObject;
 		_context = context;
@@ -22,7 +24,7 @@ public class RESTResponseProvider {
 			httpResponseMxObject =  Core.instantiate(context, HttpResponse.getType());
 		}
 		else {
-			httpResponseMxObject = httpResponse;
+			httpResponseMxObject = httpResponse.getMendixObject();
 		}
 		
 		_newHttpResponse = HttpResponse.initialize(context, httpResponseMxObject);
@@ -59,7 +61,7 @@ public class RESTResponseProvider {
 	private void setContentTypeHeader(Integer statusCode) throws CoreException
 	{
 		if(statusCode == 400 || statusCode == 500 || 
-			rest_responses.proxies.constants.Constants.getEnableMendixErrorFormat()==false) {
+			Constants.getEnableMendixErrorFormat()==false) {
 			this.addHttpHeader("Content-type", "application/problem+json");
 		}
 		else if (statusCode != 204) {

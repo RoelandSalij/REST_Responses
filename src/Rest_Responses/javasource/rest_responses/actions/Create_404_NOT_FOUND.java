@@ -17,35 +17,41 @@ import rest_responses.ErrorMessageProvider;
 import rest_responses.RESTResponseProvider;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import java.util.UUID;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * The URI requested is invalid or the resource requested does not exists.
  */
-public class Create_404_NOT_FOUND extends CustomJavaAction<IMendixObject>
+public class Create_404_NOT_FOUND extends UserAction<IMendixObject>
 {
-	private IMendixObject __HTTPResponse;
-	private system.proxies.HttpResponse HTTPResponse;
-	private java.lang.String LogMessageDetails;
+	/** @deprecated use HTTPResponse.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __HTTPResponse;
+	private final system.proxies.HttpResponse HTTPResponse;
+	private final java.lang.String LogMessageDetails;
 
-	public Create_404_NOT_FOUND(IContext context, IMendixObject HTTPResponse, java.lang.String LogMessageDetails)
+	public Create_404_NOT_FOUND(
+		IContext context,
+		IMendixObject _hTTPResponse,
+		java.lang.String _logMessageDetails
+	)
 	{
 		super(context);
-		this.__HTTPResponse = HTTPResponse;
-		this.LogMessageDetails = LogMessageDetails;
+		this.__HTTPResponse = _hTTPResponse;
+		this.HTTPResponse = _hTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), _hTTPResponse);
+		this.LogMessageDetails = _logMessageDetails;
 	}
 
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
-
 		// BEGIN USER CODE
 		HttpServletRequest servlet = this.getContext().getRuntimeRequest().get().getHttpServletRequest();
 		
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Not Found", 
 				servlet.getMethod() + " " + servlet.getPathInfo(), 404, null, null, LogMessageDetails);
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), HTTPResponse.getMendixObject(), 404, emp.getJSONResponseMessage(), "Not Found");
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), HTTPResponse, 404, emp.getJSONResponseMessage(), "Not Found");
 		return rp.getResponse();
 		// END USER CODE
 	}

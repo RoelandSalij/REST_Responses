@@ -12,3 +12,5 @@ src/Rest_Responses/.classpath
 javasource/administration
 src/.project
 src/Rest_Responses/.project
+src/Rest_Responses/.mendix-cache/
+src/Rest_Responses/.settings/
