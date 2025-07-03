@@ -10,10 +10,9 @@
 package rest_responses.actions;
 
 import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.webui.CustomJavaAction;
-import rest_responses.RESTResponseProvider;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.systemwideinterfaces.core.UserAction;
+import rest_responses.RESTResponseProvider;
 
 /**
  * The server successfully processed the request, but is not returning any content. E.G.Delete

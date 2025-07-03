@@ -10,10 +10,9 @@
 package rest_responses.actions;
 
 import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.webui.CustomJavaAction;
-import rest_responses.RESTResponseProvider;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.systemwideinterfaces.core.UserAction;
+import rest_responses.RESTResponseProvider;
 
 /**
  * A Multi-Status response conveys information about multiple resources in situations where multiple status codes might be appropriate.
