@@ -37,7 +37,7 @@ public class Create_200_OK extends CustomJavaAction<IMendixObject>
 
 		// BEGIN USER CODE
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse,  200, this.Content, "OK");
+		RESTResponseProvider rp = new RESTResponseProvider(this.context(), this.HTTPResponse,  200, this.Content, "OK");
 
 		return rp.getResponse();
 		// END USER CODE

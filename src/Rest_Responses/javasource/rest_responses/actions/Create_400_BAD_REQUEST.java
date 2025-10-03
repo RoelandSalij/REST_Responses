@@ -61,7 +61,7 @@ public class Create_400_BAD_REQUEST extends CustomJavaAction<IMendixObject>
 		
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), Title, Detail, 400, TypeURI, ValidationErrors, LogMessageDetails);
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 400, emp.getJSONResponseMessage(), "Bad Request");
+		RESTResponseProvider rp = new RESTResponseProvider(this.context(), this.HTTPResponse, 400, emp.getJSONResponseMessage(), "Bad Request");
 		
 		return rp.getResponse();
 		// END USER CODE

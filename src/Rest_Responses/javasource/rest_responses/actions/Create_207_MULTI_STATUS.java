@@ -39,7 +39,7 @@ public class Create_207_MULTI_STATUS extends CustomJavaAction<IMendixObject>
 
 		// BEGIN USER CODE
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse,  207, this.Content, "MULTI-STATUS");
+		RESTResponseProvider rp = new RESTResponseProvider(this.context(), this.HTTPResponse,  207, this.Content, "MULTI-STATUS");
 
 		rp.addHttpHeader("Content-type", this.ContentType);
 		return rp.getResponse();

@@ -34,7 +34,7 @@ public class Create_204_NO_CONTENT extends CustomJavaAction<IMendixObject>
 		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
 
 		// BEGIN USER CODE
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(),__HTTPResponse, 204, "", "No Content");
+		RESTResponseProvider rp = new RESTResponseProvider(this.context(),this.HTTPResponse, 204, "", "No Content");
 		return rp.getResponse();
 		// END USER CODE
 	}

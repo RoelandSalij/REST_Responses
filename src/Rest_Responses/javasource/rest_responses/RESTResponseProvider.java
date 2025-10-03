@@ -13,22 +13,18 @@ public class RESTResponseProvider {
 	private HttpResponse _newHttpResponse;
 	private IContext _context;
 		
-	public RESTResponseProvider(IContext context,IMendixObject httpResponse, Integer statusCode, String content, String reason ) throws CoreException{
+	public RESTResponseProvider(IContext context,HttpResponse httpResponse, Integer statusCode, String content, String reason ) throws CoreException{
 	
-		IMendixObject httpResponseMxObject;
 		_context = context;
 	
 		if(httpResponse ==null) {
-			httpResponseMxObject =  Core.instantiate(context, HttpResponse.getType());
-		}
-		else {
-			httpResponseMxObject = httpResponse;
+			httpResponse =  new HttpResponse(context);
 		}
 		
-		_newHttpResponse = HttpResponse.initialize(context, httpResponseMxObject);
-		
-		setResponseAttributes(context, _newHttpResponse.getMendixObject(), statusCode, content, reason);
+		setResponseAttributes(context, httpResponse.getMendixObject(), statusCode, content, reason);
 		setContentTypeHeader(statusCode);
+		
+		_newHttpResponse = httpResponse;
 	}
 	
 	public IMendixObject getResponse() {

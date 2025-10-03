@@ -47,7 +47,7 @@ public class Create_429_TOO_MANY_REQUESTS extends CustomJavaAction<IMendixObject
 		
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Too Many Requests", servlet.getMethod() + " " + servlet.getPathInfo(), 429, null, null, LogMessageDetails);
 
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 429, emp.getJSONResponseMessage(), "Too Many Requests");
+		RESTResponseProvider rp = new RESTResponseProvider(this.context(), this.HTTPResponse, 429, emp.getJSONResponseMessage(), "Too Many Requests");
 
 		return rp.getResponse();
 		// END USER CODE

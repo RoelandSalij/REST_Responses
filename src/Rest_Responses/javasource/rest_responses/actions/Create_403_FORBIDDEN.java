@@ -45,7 +45,7 @@ public class Create_403_FORBIDDEN extends CustomJavaAction<IMendixObject>
 		// BEGIN USER CODE
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Forbidden", this.Detail, 403, null, null, LogMessageDetails);
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), __HTTPResponse, 403, emp.getJSONResponseMessage(), "Forbidden");
+		RESTResponseProvider rp = new RESTResponseProvider(this.context(), this.HTTPResponse, 403, emp.getJSONResponseMessage(), "Forbidden");
 		
 		return rp.getResponse();
 
