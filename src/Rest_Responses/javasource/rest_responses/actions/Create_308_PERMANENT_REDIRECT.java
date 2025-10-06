@@ -45,7 +45,7 @@ public class Create_308_PERMANENT_REDIRECT extends UserAction<IMendixObject>
 		RESTResponseProvider rp = new RESTResponseProvider(this.context(), HTTPResponse, 308, "", "Permanent Redirect");
 		
 		if( Location != null && "" != Location) {
-			rp.addHttpHeader("Location", this.Location);
+			rp.setOrOverrideHttpHeader("Location", this.Location);
 		}
 		
 		return rp.getResponse();		
