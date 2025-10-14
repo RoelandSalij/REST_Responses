@@ -1,5 +1,7 @@
 package rest_responses;
 
+import java.util.List;
+
 import com.mendix.core.Core;
 import com.mendix.core.CoreException;
 import com.mendix.systemwideinterfaces.core.IContext;
@@ -15,34 +17,79 @@ public class RESTResponseProvider {
 		
 	public RESTResponseProvider(IContext context,HttpResponse httpResponse, Integer statusCode, String content, String reason ) throws CoreException{
 	
+		IMendixObject httpResponseMxObject;
 		_context = context;
 	
 		if(httpResponse ==null) {
-			httpResponse =  new HttpResponse(context);
+			httpResponseMxObject =  Core.instantiate(context, HttpResponse.getType());
+		}
+		else {
+			httpResponseMxObject = httpResponse.getMendixObject();
 		}
 		
-		setResponseAttributes(context, httpResponse.getMendixObject(), statusCode, content, reason);
-		setContentTypeHeader(statusCode);
+		_newHttpResponse = HttpResponse.initialize(context, httpResponseMxObject);
 		
-		_newHttpResponse = httpResponse;
+		setResponseAttributes(context, _newHttpResponse.getMendixObject(), statusCode, content, reason);
+		setContentTypeHeader(statusCode, content);
 	}
 	
 	public IMendixObject getResponse() {
 		return _newHttpResponse.getMendixObject();
 	}
 	
-	public void addHttpHeader(String key, String value) throws CoreException{
+	public void setOrOverrideHttpHeader(String key, String value) throws CoreException{
 		
-		IMendixObject mxObject = Core.instantiate(_context, HttpHeader.getType());
-		mxObject.setValue(_context, HttpHeader.MemberNames.Key.toString(), key);
-		mxObject.setValue(_context, HttpHeader.MemberNames.Value.toString(), value);
-		Core.getLogger("REST_Responses").trace(String.format("Created new http header:%s %s",key,value));
+		// --- Input Validation ---
+		if (this._newHttpResponse == null) {
+			Core.getLogger(this.getClass().getName()).warn("HttpResponseObject is null. Cannot set header '" + key + "'.");
+			return;
+		}
+		if (key == null || key.trim().isEmpty()) {
+			Core.getLogger(this.getClass().getName()).warn("HeaderName is null or empty. Cannot set header for HttpResponseObject ID: " + this._newHttpResponse.getMendixObject().getId());
+			return;
+		}
+		
+		if (value == null || value.trim().isBlank()) {
+			return;
+		}
 
-		if(_newHttpResponse !=null) {
-			HttpHeader newHttpHeader = HttpHeader.load(_context, mxObject.getId());
-			newHttpHeader.setHttpHeaders(_context, _newHttpResponse );
-		}		
-	}
+		Core.getLogger(this.getClass().getName()).trace(String.format(
+			"Attempting to set HTTP header: '%s' = '%s' for HttpResponse ID: %d. ",
+			key, value, this._newHttpResponse.getMendixObject().getId().toLong()
+		));
+
+		boolean headerFound = false;
+		// 1. Retrieve all associated HttpHeader objects from the HttpResponseObject
+		//    We use the association member name provided as a parameter.
+		List<IMendixObject> associatedHeaders = Core.retrieveByPath(_context, this._newHttpResponse.getMendixObject(), HttpHeader.MemberNames.HttpHeaders.toString());
+
+		for (IMendixObject header : associatedHeaders) {
+			String currentHeaderName = header.getValue(_context, HttpHeader.MemberNames.Key.toString());
+			// Check if the current header's name matches the one we want to set (case-insensitive)
+			if (currentHeaderName != null && currentHeaderName.equalsIgnoreCase(key)) {
+				// Header found, override its value
+				header.setValue(_context, HttpHeader.MemberNames.Value.toString(), value);
+				Core.commit(_context, header); // Commit the change to the existing header object
+				headerFound = true;
+				Core.getLogger(this.getClass().getName()).trace(String.format("Updated existing HTTP header: '%s' = '%s' for HttpResponse ID: %d", key, value, this._newHttpResponse.getMendixObject().getId().toLong()));
+				break; // We found and updated it, no need to check other headers
+			}
+		}
+
+		if (!headerFound) {
+			// Header not found, create a new HttpHeader object
+			IMendixObject newHeader = Core.instantiate(_context,HttpHeader.getType());
+			newHeader.setValue(_context, HttpHeader.MemberNames.Key.toString(), key);
+			newHeader.setValue(_context, HttpHeader.MemberNames.Value.toString(), value);
+
+			// Associate the new header with the HttpResponse object
+			// We use the association member name provided as a parameter for the reference on HttpHeader.
+			newHeader.setValue(_context, HttpHeader.MemberNames.HttpHeaders.toString(), this._newHttpResponse.getMendixObject().getId());
+
+			Core.commit(_context, newHeader); // Commit the newly created header object
+			Core.getLogger(this.getClass().getName()).trace(String.format("Created new HTTP header: '%s' = '%s' for HttpResponse ID: %d", key, value, this._newHttpResponse.getMendixObject().getId().toLong()));
+		}
+    }
 	
 	private void setResponseAttributes(IContext context,IMendixObject mxObject, Integer statusCode, String content, String reason){
 		
@@ -52,14 +99,14 @@ public class RESTResponseProvider {
 		mxObject.setValue(context, HttpResponse.MemberNames.ReasonPhrase.toString(), reason );
 	}
 	
-	private void setContentTypeHeader(Integer statusCode) throws CoreException
+	private void setContentTypeHeader(Integer statusCode,  String body) throws CoreException
 	{
 		if(statusCode == 400 || statusCode == 500 || 
 			rest_responses.proxies.constants.Constants.getEnableMendixErrorFormat()==false) {
-			this.addHttpHeader("Content-type", "application/problem+json");
+			this.setOrOverrideHttpHeader("Content-type", "application/problem+json");
 		}
-		else if (statusCode != 204) {
-			this.addHttpHeader("Content-type", "application/json");
+		else if (statusCode != 204 && statusCode != 304 && !(body.isBlank())) {
+			this.setOrOverrideHttpHeader("Content-type", "application/json");
 		}
 		
 	}

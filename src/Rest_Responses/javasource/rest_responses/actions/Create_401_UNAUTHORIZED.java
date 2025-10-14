@@ -49,7 +49,7 @@ public class Create_401_UNAUTHORIZED extends CustomJavaAction<IMendixObject>
 		
 		
 		RESTResponseProvider rp = new RESTResponseProvider(this.context(), this.HTTPResponse, status, emp.getJSONResponseMessage(), "Unauthorized");
-		rp.addHttpHeader("WWW-Authenticate", this.WWWAuthenticate);
+		rp.setOrOverrideHttpHeader("WWW-Authenticate", this.WWWAuthenticate);
 		
 		return rp.getResponse();
 		// END USER CODE
