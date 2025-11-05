@@ -53,7 +53,7 @@ public class Create_409_CONFLICT extends UserAction<IMendixObject>
 		// BEGIN USER CODE
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Conflict", this.Detail, 409, null, null, LogMessageDetails);
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), HTTPResponse, 409, emp.getJSONResponseMessage(), "Conflict");
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HTTPResponse, 409, emp.getJSONResponseMessage(), "Conflict");
 		return rp.getResponse();
 
 		// END USER CODE

@@ -64,15 +64,14 @@ public class Create_400_BAD_REQUEST extends UserAction<IMendixObject>
 	public IMendixObject executeAction() throws Exception
 	{
 		// BEGIN USER CODE
-		String title = this.Title;
-		
+		String title = Title;
 		if(title == null || title.isEmpty()) {
 			title = "Bad Request";
 		}
 		
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), title, Detail, 400, TypeURI, ValidationErrors, LogMessageDetails);
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), HTTPResponse, 400, emp.getJSONResponseMessage(), "Bad Request");
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HTTPResponse, 400, emp.getJSONResponseMessage(), "Bad Request");
 		
 		return rp.getResponse();
 		// END USER CODE

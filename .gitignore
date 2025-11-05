@@ -4,6 +4,8 @@ src/Rest_Responses/deployment/*
 *.launch
 *.lock
 proxies
+/src/Rest_Responses/.mendix-cache/
+/src/Rest_Responses/.settings/
 src/Rest_Responses/javasource/system*
 src/Rest_Responses/javasource/test*
 src/Rest_Responses/project-settings.user.json

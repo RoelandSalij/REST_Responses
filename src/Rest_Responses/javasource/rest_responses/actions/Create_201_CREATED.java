@@ -46,7 +46,7 @@ public class Create_201_CREATED extends UserAction<IMendixObject>
 	{
 		// BEGIN USER CODE
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), HTTPResponse, 201, this.Content, "Created");
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(),this.HTTPResponse, 201, this.Content, "Created");
 		
 		if( Location != null && "" != Location) {
 			rp.setOrOverrideHttpHeader("Location", this.Location);

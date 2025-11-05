@@ -101,13 +101,13 @@ public class RESTResponseProvider {
 		mxObject.setValue(context, HttpResponse.MemberNames.ReasonPhrase.toString(), reason );
 	}
 	
-	private void setContentTypeHeader(Integer statusCode, String body) throws CoreException
+	private void setContentTypeHeader(Integer statusCode,  String body) throws CoreException
 	{
 		if(statusCode == 400 || statusCode == 500 || 
-			Constants.getEnableMendixErrorFormat()==false) {
+			rest_responses.proxies.constants.Constants.getEnableMendixErrorFormat()==false) {
 			this.setOrOverrideHttpHeader("Content-type", "application/problem+json");
 		}
-		else if (statusCode != 204 && statusCode != 304 && !(body.isBlank())) {
+		else if (statusCode != 204 && statusCode != 304 && body != null && !(body.isBlank())) {
 			this.setOrOverrideHttpHeader("Content-type", "application/json");
 		}
 		

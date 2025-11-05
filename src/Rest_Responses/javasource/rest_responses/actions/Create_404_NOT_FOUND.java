@@ -51,7 +51,7 @@ public class Create_404_NOT_FOUND extends UserAction<IMendixObject>
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Not Found", 
 				servlet.getMethod() + " " + servlet.getPathInfo(), 404, null, null, LogMessageDetails);
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), HTTPResponse, 404, emp.getJSONResponseMessage(), "Not Found");
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HTTPResponse, 404, emp.getJSONResponseMessage(), "Not Found");
 		return rp.getResponse();
 		// END USER CODE
 	}

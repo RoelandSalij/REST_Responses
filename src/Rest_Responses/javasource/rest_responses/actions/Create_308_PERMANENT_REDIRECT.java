@@ -15,7 +15,7 @@ import com.mendix.systemwideinterfaces.core.UserAction;
 import rest_responses.RESTResponseProvider;
 
 /**
- * The reuested resource has been permanently moved to the URL specified in the Location header
+ * The server successfully processed the request, but is not returning any content. E.G.Delete
  */
 public class Create_308_PERMANENT_REDIRECT extends UserAction<IMendixObject>
 {
@@ -41,16 +41,13 @@ public class Create_308_PERMANENT_REDIRECT extends UserAction<IMendixObject>
 	public IMendixObject executeAction() throws Exception
 	{
 		// BEGIN USER CODE
-		
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), HTTPResponse, 308, "", "Permanent Redirect");
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HTTPResponse, 308, "", "Permanent Redirect");
 		
 		if( Location != null && "" != Location) {
 			rp.setOrOverrideHttpHeader("Location", this.Location);
 		}
 		
 		return rp.getResponse();		
-		
-
 		// END USER CODE
 	}
 

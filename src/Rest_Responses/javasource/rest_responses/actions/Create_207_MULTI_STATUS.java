@@ -45,7 +45,7 @@ public class Create_207_MULTI_STATUS extends UserAction<IMendixObject>
 	{
 		// BEGIN USER CODE
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), HTTPResponse,  207, this.Content, "MULTI-STATUS");
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HTTPResponse,  207, this.Content, "MULTI-STATUS");
 
 		rp.setOrOverrideHttpHeader("Content-type", this.ContentType);
 		return rp.getResponse();

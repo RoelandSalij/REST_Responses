@@ -41,7 +41,7 @@ public class Create_202_ACCEPTED extends UserAction<IMendixObject>
 	public IMendixObject executeAction() throws Exception
 	{
 		// BEGIN USER CODE
-		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(),HTTPResponse, 202, this.Content, "Accepted");
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(),this.HTTPResponse, 202, this.Content, "Accepted");
 		return rp.getResponse();
 		// END USER CODE
 	}

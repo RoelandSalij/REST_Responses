@@ -38,7 +38,7 @@ public class Create_204_NO_CONTENT extends UserAction<IMendixObject>
 	public IMendixObject executeAction() throws Exception
 	{
 		// BEGIN USER CODE
-		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(),HTTPResponse, 204, "", "No Content");
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(),this.HTTPResponse, 204, "", "No Content");
 		return rp.getResponse();
 		// END USER CODE
 	}
