@@ -13,33 +13,40 @@ import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 import rest_responses.RESTResponseProvider;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * A Multi-Status response conveys information about multiple resources in situations where multiple status codes might be appropriate.
  */
-public class Create_207_MULTI_STATUS extends CustomJavaAction<IMendixObject>
+public class Create_207_MULTI_STATUS extends UserAction<IMendixObject>
 {
-	private IMendixObject __HTTPResponse;
-	private system.proxies.HttpResponse HTTPResponse;
-	private java.lang.String Content;
-	private java.lang.String ContentType;
+	/** @deprecated use HTTPResponse.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __HTTPResponse;
+	private final system.proxies.HttpResponse HTTPResponse;
+	private final java.lang.String Content;
+	private final java.lang.String ContentType;
 
-	public Create_207_MULTI_STATUS(IContext context, IMendixObject HTTPResponse, java.lang.String Content, java.lang.String ContentType)
+	public Create_207_MULTI_STATUS(
+		IContext context,
+		IMendixObject _hTTPResponse,
+		java.lang.String _content,
+		java.lang.String _contentType
+	)
 	{
 		super(context);
-		this.__HTTPResponse = HTTPResponse;
-		this.Content = Content;
-		this.ContentType = ContentType;
+		this.__HTTPResponse = _hTTPResponse;
+		this.HTTPResponse = _hTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), _hTTPResponse);
+		this.Content = _content;
+		this.ContentType = _contentType;
 	}
 
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
-
 		// BEGIN USER CODE
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), this.HTTPResponse,  207, this.Content, "MULTI-STATUS");
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HTTPResponse,  207, this.Content, "MULTI-STATUS");
 
 		rp.setOrOverrideHttpHeader("Content-type", this.ContentType);
 		return rp.getResponse();

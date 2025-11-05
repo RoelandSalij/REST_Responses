@@ -13,28 +13,33 @@ import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 import rest_responses.RESTResponseProvider;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * The server successfully processed the request, but is not returning any content. E.G.Delete
  */
-public class Create_204_NO_CONTENT extends CustomJavaAction<IMendixObject>
+public class Create_204_NO_CONTENT extends UserAction<IMendixObject>
 {
-	private IMendixObject __HTTPResponse;
-	private system.proxies.HttpResponse HTTPResponse;
+	/** @deprecated use HTTPResponse.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __HTTPResponse;
+	private final system.proxies.HttpResponse HTTPResponse;
 
-	public Create_204_NO_CONTENT(IContext context, IMendixObject HTTPResponse)
+	public Create_204_NO_CONTENT(
+		IContext context,
+		IMendixObject _hTTPResponse
+	)
 	{
 		super(context);
-		this.__HTTPResponse = HTTPResponse;
+		this.__HTTPResponse = _hTTPResponse;
+		this.HTTPResponse = _hTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), _hTTPResponse);
 	}
 
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
-
 		// BEGIN USER CODE
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(),this.HTTPResponse, 204, "", "No Content");
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(),this.HTTPResponse, 204, "", "No Content");
 		return rp.getResponse();
 		// END USER CODE
 	}

@@ -13,30 +13,36 @@ import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 import rest_responses.RESTResponseProvider;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * The server successfully processed the request, but is not returning any content. E.G.Delete
  */
-public class Create_308_PERMANENT_REDIRECT extends CustomJavaAction<IMendixObject>
+public class Create_308_PERMANENT_REDIRECT extends UserAction<IMendixObject>
 {
-	private IMendixObject __HTTPResponse;
-	private system.proxies.HttpResponse HTTPResponse;
-	private java.lang.String Location;
+	/** @deprecated use HTTPResponse.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __HTTPResponse;
+	private final system.proxies.HttpResponse HTTPResponse;
+	private final java.lang.String Location;
 
-	public Create_308_PERMANENT_REDIRECT(IContext context, IMendixObject HTTPResponse, java.lang.String Location)
+	public Create_308_PERMANENT_REDIRECT(
+		IContext context,
+		IMendixObject _hTTPResponse,
+		java.lang.String _location
+	)
 	{
 		super(context);
-		this.__HTTPResponse = HTTPResponse;
-		this.Location = Location;
+		this.__HTTPResponse = _hTTPResponse;
+		this.HTTPResponse = _hTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), _hTTPResponse);
+		this.Location = _location;
 	}
 
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
-
 		// BEGIN USER CODE
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), this.HTTPResponse, 308, "", "Permanent Redirect");
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HTTPResponse, 308, "", "Permanent Redirect");
 		
 		if( Location != null && "" != Location) {
 			rp.setOrOverrideHttpHeader("Location", this.Location);

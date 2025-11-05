@@ -16,39 +16,47 @@ import com.mendix.webui.CustomJavaAction;
 import rest_responses.ErrorMessageProvider;
 import rest_responses.RESTResponseProvider;
 import java.util.UUID;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * The authentication credentials are missing, or if supplied are not valid or not sufficient to access the resource.
  */
-public class Create_401_UNAUTHORIZED extends CustomJavaAction<IMendixObject>
+public class Create_401_UNAUTHORIZED extends UserAction<IMendixObject>
 {
-	private java.lang.String WWWAuthenticate;
-	private IMendixObject __HTTPResponse;
-	private system.proxies.HttpResponse HTTPResponse;
-	private java.lang.String Details;
-	private java.lang.String LogMessageDetails;
+	private final java.lang.String WWWAuthenticate;
+	/** @deprecated use HTTPResponse.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __HTTPResponse;
+	private final system.proxies.HttpResponse HTTPResponse;
+	private final java.lang.String Details;
+	private final java.lang.String LogMessageDetails;
 
-	public Create_401_UNAUTHORIZED(IContext context, java.lang.String WWWAuthenticate, IMendixObject HTTPResponse, java.lang.String Details, java.lang.String LogMessageDetails)
+	public Create_401_UNAUTHORIZED(
+		IContext context,
+		java.lang.String _wWWAuthenticate,
+		IMendixObject _hTTPResponse,
+		java.lang.String _details,
+		java.lang.String _logMessageDetails
+	)
 	{
 		super(context);
-		this.WWWAuthenticate = WWWAuthenticate;
-		this.__HTTPResponse = HTTPResponse;
-		this.Details = Details;
-		this.LogMessageDetails = LogMessageDetails;
+		this.WWWAuthenticate = _wWWAuthenticate;
+		this.__HTTPResponse = _hTTPResponse;
+		this.HTTPResponse = _hTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), _hTTPResponse);
+		this.Details = _details;
+		this.LogMessageDetails = _logMessageDetails;
 	}
 
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
-
 		// BEGIN USER CODE
 		Integer status = 401;
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Unauthorized", 
 				this.Details, status, null, null, LogMessageDetails);
 		
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), this.HTTPResponse, status, emp.getJSONResponseMessage(), "Unauthorized");
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HTTPResponse, status, emp.getJSONResponseMessage(), "Unauthorized");
 		rp.setOrOverrideHttpHeader("WWW-Authenticate", this.WWWAuthenticate);
 		
 		return rp.getResponse();

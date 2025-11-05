@@ -16,6 +16,7 @@ import com.mendix.webui.CustomJavaAction;
 import rest_responses.ErrorMessageProvider;
 import rest_responses.RESTResponseProvider;
 import java.util.UUID;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * The request could not be completed due to a conflict with the current state of the resource. 
@@ -23,30 +24,36 @@ import java.util.UUID;
  * 
  * The response body SHOULD include enough information for the user to recognize the source of the conflict. Ideally, the response entity would include enough information for the user or user agent to fix the problem; however, that might not be possible and is not required.
  */
-public class Create_422_UNPROCESSABLE_CONTENT extends CustomJavaAction<IMendixObject>
+public class Create_422_UNPROCESSABLE_CONTENT extends UserAction<IMendixObject>
 {
-	private IMendixObject __HTTPResponse;
-	private system.proxies.HttpResponse HTTPResponse;
-	private java.lang.String Detail;
-	private java.lang.String LogMessageDetails;
+	/** @deprecated use HTTPResponse.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __HTTPResponse;
+	private final system.proxies.HttpResponse HTTPResponse;
+	private final java.lang.String Detail;
+	private final java.lang.String LogMessageDetails;
 
-	public Create_422_UNPROCESSABLE_CONTENT(IContext context, IMendixObject HTTPResponse, java.lang.String Detail, java.lang.String LogMessageDetails)
+	public Create_422_UNPROCESSABLE_CONTENT(
+		IContext context,
+		IMendixObject _hTTPResponse,
+		java.lang.String _detail,
+		java.lang.String _logMessageDetails
+	)
 	{
 		super(context);
-		this.__HTTPResponse = HTTPResponse;
-		this.Detail = Detail;
-		this.LogMessageDetails = LogMessageDetails;
+		this.__HTTPResponse = _hTTPResponse;
+		this.HTTPResponse = _hTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), _hTTPResponse);
+		this.Detail = _detail;
+		this.LogMessageDetails = _logMessageDetails;
 	}
 
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
-
 		// BEGIN USER CODE
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Unprocessable Content", this.Detail, 422, null, null, LogMessageDetails);
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), this.HTTPResponse, 422, emp.getJSONResponseMessage(), "Unprocessable Content");
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HTTPResponse, 422, emp.getJSONResponseMessage(), "Unprocessable Content");
 		return rp.getResponse();
 
 		// END USER CODE

@@ -13,33 +13,40 @@ import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 import rest_responses.RESTResponseProvider;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * The request has been fulfilled and resulted in a new resource being created..
  */
-public class Create_201_CREATED extends CustomJavaAction<IMendixObject>
+public class Create_201_CREATED extends UserAction<IMendixObject>
 {
-	private IMendixObject __HTTPResponse;
-	private system.proxies.HttpResponse HTTPResponse;
-	private java.lang.String Content;
-	private java.lang.String Location;
+	/** @deprecated use HTTPResponse.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __HTTPResponse;
+	private final system.proxies.HttpResponse HTTPResponse;
+	private final java.lang.String Content;
+	private final java.lang.String Location;
 
-	public Create_201_CREATED(IContext context, IMendixObject HTTPResponse, java.lang.String Content, java.lang.String Location)
+	public Create_201_CREATED(
+		IContext context,
+		IMendixObject _hTTPResponse,
+		java.lang.String _content,
+		java.lang.String _location
+	)
 	{
 		super(context);
-		this.__HTTPResponse = HTTPResponse;
-		this.Content = Content;
-		this.Location = Location;
+		this.__HTTPResponse = _hTTPResponse;
+		this.HTTPResponse = _hTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), _hTTPResponse);
+		this.Content = _content;
+		this.Location = _location;
 	}
 
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
-
 		// BEGIN USER CODE
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(),this.HTTPResponse, 201, this.Content, "Created");
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(),this.HTTPResponse, 201, this.Content, "Created");
 		
 		if( Location != null && "" != Location) {
 			rp.setOrOverrideHttpHeader("Location", this.Location);

@@ -13,30 +13,36 @@ import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.webui.CustomJavaAction;
 import rest_responses.RESTResponseProvider;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * The request has been accepted for further processing, which will be completed sometime later.
  */
-public class Create_202_ACCEPTED extends CustomJavaAction<IMendixObject>
+public class Create_202_ACCEPTED extends UserAction<IMendixObject>
 {
-	private java.lang.String Content;
-	private IMendixObject __HTTPResponse;
-	private system.proxies.HttpResponse HTTPResponse;
+	private final java.lang.String Content;
+	/** @deprecated use HTTPResponse.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __HTTPResponse;
+	private final system.proxies.HttpResponse HTTPResponse;
 
-	public Create_202_ACCEPTED(IContext context, java.lang.String Content, IMendixObject HTTPResponse)
+	public Create_202_ACCEPTED(
+		IContext context,
+		java.lang.String _content,
+		IMendixObject _hTTPResponse
+	)
 	{
 		super(context);
-		this.Content = Content;
-		this.__HTTPResponse = HTTPResponse;
+		this.Content = _content;
+		this.__HTTPResponse = _hTTPResponse;
+		this.HTTPResponse = _hTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), _hTTPResponse);
 	}
 
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
-
 		// BEGIN USER CODE
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(),this.HTTPResponse, 202, this.Content, "Accepted");
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(),this.HTTPResponse, 202, this.Content, "Accepted");
 		return rp.getResponse();
 		// END USER CODE
 	}

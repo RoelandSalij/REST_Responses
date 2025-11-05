@@ -16,35 +16,42 @@ import com.mendix.webui.CustomJavaAction;
 import rest_responses.ErrorMessageProvider;
 import rest_responses.RESTResponseProvider;
 import java.util.UUID;
+import com.mendix.systemwideinterfaces.core.UserAction;
 
 /**
  * The request could not be understood by the server due to malformed syntax.
  */
-public class Create_500_INTERNAL_SERVER_ERROR extends CustomJavaAction<IMendixObject>
+public class Create_500_INTERNAL_SERVER_ERROR extends UserAction<IMendixObject>
 {
-	private java.lang.String Content;
-	private IMendixObject __HTTPResponse;
-	private system.proxies.HttpResponse HTTPResponse;
-	private java.lang.String LogMessage;
+	private final java.lang.String Content;
+	/** @deprecated use HTTPResponse.getMendixObject() instead. */
+	@java.lang.Deprecated(forRemoval = true)
+	private final IMendixObject __HTTPResponse;
+	private final system.proxies.HttpResponse HTTPResponse;
+	private final java.lang.String LogMessage;
 
-	public Create_500_INTERNAL_SERVER_ERROR(IContext context, java.lang.String Content, IMendixObject HTTPResponse, java.lang.String LogMessage)
+	public Create_500_INTERNAL_SERVER_ERROR(
+		IContext context,
+		java.lang.String _content,
+		IMendixObject _hTTPResponse,
+		java.lang.String _logMessage
+	)
 	{
 		super(context);
-		this.Content = Content;
-		this.__HTTPResponse = HTTPResponse;
-		this.LogMessage = LogMessage;
+		this.Content = _content;
+		this.__HTTPResponse = _hTTPResponse;
+		this.HTTPResponse = _hTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), _hTTPResponse);
+		this.LogMessage = _logMessage;
 	}
 
 	@java.lang.Override
 	public IMendixObject executeAction() throws Exception
 	{
-		this.HTTPResponse = this.__HTTPResponse == null ? null : system.proxies.HttpResponse.initialize(getContext(), __HTTPResponse);
-
 		// BEGIN USER CODE
 		
 		ErrorMessageProvider emp = new ErrorMessageProvider(getContext(), "Internal Server Error",  this.Content, 500, null, null, LogMessage);
 
-		RESTResponseProvider rp = new RESTResponseProvider(this.context(), this.HTTPResponse, 500, emp.getJSONResponseMessage(), "Internal Server Error");
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HTTPResponse, 500, emp.getJSONResponseMessage(), "Internal Server Error");
 	
 		Core.getLogger("ProblemJSONModule").error(emp.getJSONResponseMessage());
 		
