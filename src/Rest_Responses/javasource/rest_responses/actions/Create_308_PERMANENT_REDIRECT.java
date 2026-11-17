@@ -15,7 +15,7 @@ import com.mendix.systemwideinterfaces.core.UserAction;
 import rest_responses.RESTResponseProvider;
 
 /**
- * The server successfully processed the request, but is not returning any content. E.G.Delete
+ * The reuested resource has been permanently moved to the URL specified in the Location header
  */
 public class Create_308_PERMANENT_REDIRECT extends UserAction<IMendixObject>
 {
