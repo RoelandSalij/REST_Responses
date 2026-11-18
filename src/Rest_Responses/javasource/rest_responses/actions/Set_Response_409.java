@@ -60,15 +60,16 @@ public class Set_Response_409 extends UserAction<IMendixObject>
 	public IMendixObject executeAction() throws Exception
 	{
 		// BEGIN USER CODE
+		Integer statusCode = 409;
 		String reasonPhrase = "Conflict";
 		String title = Title;
 		if(title == null || title.isEmpty()) {
 			title = reasonPhrase;
 		}
 		
-		SiemensErrorMessageProvider err = new SiemensErrorMessageProvider(getContext(), 409, title, Detail, ErrorCode, Link, CorrelationId, null, LogMessageDetails);
+		SiemensErrorMessageProvider err = new SiemensErrorMessageProvider(getContext(), statusCode, title, Detail, ErrorCode, Link, CorrelationId, null, LogMessageDetails);
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HttpResponse, 409, err.getJSONResponseMessage(), reasonPhrase);
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HttpResponse, statusCode, err.getJSONResponseMessage(), reasonPhrase);
 		
 		return rp.getResponse();
 		// END USER CODE

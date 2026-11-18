@@ -68,15 +68,16 @@ public class Set_Response_400 extends UserAction<IMendixObject>
 	public IMendixObject executeAction() throws Exception
 	{
 		// BEGIN USER CODE
+		Integer statusCode = 400;
 		String reasonPhrase = "Bad Request";
 		String title = Title;
 		if(title == null || title.isEmpty()) {
 			title = reasonPhrase;
 		}
 		
-		SiemensErrorMessageProvider err = new SiemensErrorMessageProvider(getContext(), 400, title, Detail, ErrorCode, Link, CorrelationId, ValidationErrors, LogMessageDetails);
+		SiemensErrorMessageProvider err = new SiemensErrorMessageProvider(getContext(), statusCode, title, Detail, ErrorCode, Link, CorrelationId, ValidationErrors, LogMessageDetails);
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HttpResponse, 400, err.getJSONResponseMessage(), reasonPhrase);
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HttpResponse, statusCode, err.getJSONResponseMessage(), reasonPhrase);
 		
 		return rp.getResponse();
 		// END USER CODE

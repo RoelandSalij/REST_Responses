@@ -51,13 +51,14 @@ public class Set_Response_404 extends UserAction<IMendixObject>
 	public IMendixObject executeAction() throws Exception
 	{
 		// BEGIN USER CODE
+		Integer statusCode = 404;
 		String reasonPhrase = "Not Found";
 		String Detail = "The resource could not be found or you do not have permission to access it.";
 		String title = reasonPhrase;
 		
-		SiemensErrorMessageProvider err = new SiemensErrorMessageProvider(getContext(), 404, title, Detail, ErrorCode, Link, CorrelationId, null, LogMessageDetails);
+		SiemensErrorMessageProvider err = new SiemensErrorMessageProvider(getContext(), statusCode, title, Detail, ErrorCode, Link, CorrelationId, null, LogMessageDetails);
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HttpResponse, 404, err.getJSONResponseMessage(), reasonPhrase);
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HttpResponse, statusCode, err.getJSONResponseMessage(), reasonPhrase);
 		
 		return rp.getResponse();
 		// END USER CODE

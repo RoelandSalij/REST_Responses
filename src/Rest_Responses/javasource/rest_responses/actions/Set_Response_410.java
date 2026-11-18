@@ -57,15 +57,16 @@ public class Set_Response_410 extends UserAction<IMendixObject>
 	public IMendixObject executeAction() throws Exception
 	{
 		// BEGIN USER CODE
+		Integer statusCode = 410;
 		String reasonPhrase = "Gone";
 		String title = Title;
 		if(title == null || title.isEmpty()) {
 			title = reasonPhrase;
 		}
 		
-		SiemensErrorMessageProvider err = new SiemensErrorMessageProvider(getContext(), 410, title, Detail, ErrorCode, Link, CorrelationId, null, LogMessageDetails);
+		SiemensErrorMessageProvider err = new SiemensErrorMessageProvider(getContext(), statusCode, title, Detail, ErrorCode, Link, CorrelationId, null, LogMessageDetails);
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HttpResponse, 410, err.getJSONResponseMessage(), reasonPhrase);
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HttpResponse, statusCode, err.getJSONResponseMessage(), reasonPhrase);
 		
 		return rp.getResponse();
 		// END USER CODE

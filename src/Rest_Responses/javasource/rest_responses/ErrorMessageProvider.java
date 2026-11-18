@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import com.mendix.core.Core;
 import com.mendix.systemwideinterfaces.core.IContext;
-import com.mendix.systemwideinterfaces.core.IMendixObject;
 
 import rest_responses.proxies.ValidationError;
 

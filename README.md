@@ -18,10 +18,21 @@ From version 3.0.0 onwards, the HTTP responses defined here are complient with t
 - Mendix Guidelines: https://mendix.atlassian.net/wiki/x/AYBPeQ
 
 The Siemens guidelines describe that only the most commonly used HTTP responses should be used when handling a client's request. In addition, some of the responses are issued by the Mendix runtime or by the API Gateway. These responses are not defined here. In short, the following responses are defined in this module:
-- 200, 201, 202, 204, 227
+- 200, 201, 202, 204, 207
 - 301, 303, 304
 - 400, 401, 404, 406, 409, 410, 412, 415
 - 500
+
+The old java actions are still there for backwards compatability. However they should only be used for maintenance on existing API's. Use the new Siemens compliant java actions if
+- You're building a new API
+- You're updating your existing API to a new major version
+- You're registering your API on the API Gateway
+
+## How to use
+The definition of the HTTP responses has been abstracted away in a suite of java actions. They are exposed as microflows. In your processing logic, create a new HTTP response or make sure an HTTP response object is defined as an import parameter. Add a blank action to your logic, right-click and select 'Set type of action'. Scroll down to the HTTP Responses section and select the response you require. Fill out the properties in the popup box. See below for more information on the use of the properties.
+
+## 2XX Responses
+A note on Success (2XX) responses.
 
 ### Correlation ID
 This is a UUID that the client receives in case of errors. It can be used for trouble shooting purposes.
@@ -31,7 +42,7 @@ If your API is registered at the API Gateway, a Correlation ID will be part of t
 At the beginning of your processing logic, invoke the java action `Get_Request_CorrelationId` to get the Correlation ID from the request's headers. If the header can not be found, a Correlation ID will be generated. Use this ID every time you log an issue in the processing logic and make it part of the HTTP response.
 
 ### Error Code
-An application specific error code. This code can be useful when trouble shooting an issue. The naming convention must be harmonized across the system, not per se across the platform. The codes do not have to be human readable.
+An application specific error code. This code can be useful when trouble shooting an issue. The naming convention must be harmonized across the system, not per se across the platform. The codes do not have to be human readable but they do need to be documented.
 
 ### Documentation Link
 Don't let the client guess why the request failed. All client errors should be documented in the API specs. In addition, validation of data should be documented in the public documentation at docs.mendix.com. Provide a link to the documentation where users of a client can learn more on why the request failed.

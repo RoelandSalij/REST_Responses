@@ -8,7 +8,6 @@ import com.mendix.core.CoreException;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 
-import rest_responses.proxies.constants.Constants;
 import system.proxies.HttpHeader;
 import system.proxies.HttpResponse;
 

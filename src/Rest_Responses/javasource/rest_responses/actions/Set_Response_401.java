@@ -60,15 +60,16 @@ public class Set_Response_401 extends UserAction<IMendixObject>
 	public IMendixObject executeAction() throws Exception
 	{
 		// BEGIN USER CODE
+		Integer statusCode = 401;
 		String reasonPhrase = "Unauthorized";
 		String title = Title;
 		if(title == null || title.isEmpty()) {
 			title = reasonPhrase;
 		}
 		
-		SiemensErrorMessageProvider err = new SiemensErrorMessageProvider(getContext(), 401, title, Detail, ErrorCode, Link, CorrelationId, null, LogMessageDetails);
+		SiemensErrorMessageProvider err = new SiemensErrorMessageProvider(getContext(), statusCode, title, Detail, ErrorCode, Link, CorrelationId, null, LogMessageDetails);
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HttpResponse, 401, err.getJSONResponseMessage(), reasonPhrase);
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HttpResponse, statusCode, err.getJSONResponseMessage(), reasonPhrase);
 		rp.setOrOverrideHttpHeader("WWW-Authenticate", this.WWWAuthenticate);
 		
 		return rp.getResponse();

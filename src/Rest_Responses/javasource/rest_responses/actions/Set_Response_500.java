@@ -45,12 +45,13 @@ public class Set_Response_500 extends UserAction<IMendixObject>
 	public IMendixObject executeAction() throws Exception
 	{
 		// BEGIN USER CODE
+		Integer statusCode = 500;
 		String reasonPhrase = "Internal Server Error";
 		String title = reasonPhrase;
 		
-		SiemensErrorMessageProvider err = new SiemensErrorMessageProvider(getContext(), 500, title, null, null, null, CorrelationId, null, LogMessageDetails);
+		SiemensErrorMessageProvider err = new SiemensErrorMessageProvider(getContext(), statusCode, title, null, null, null, CorrelationId, null, LogMessageDetails);
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HttpResponse, 500, err.getJSONResponseMessage(), reasonPhrase);
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HttpResponse, statusCode, err.getJSONResponseMessage(), reasonPhrase);
 		
 		return rp.getResponse();
 		// END USER CODE

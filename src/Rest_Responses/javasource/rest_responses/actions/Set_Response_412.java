@@ -57,15 +57,16 @@ public class Set_Response_412 extends UserAction<IMendixObject>
 	public IMendixObject executeAction() throws Exception
 	{
 		// BEGIN USER CODE
+		Integer statusCode = 412;
 		String reasonPhrase = "Precondition Failed";
 		String title = Title;
 		if(title == null || title.isEmpty()) {
 			title = reasonPhrase;
 		}
 		
-		SiemensErrorMessageProvider err = new SiemensErrorMessageProvider(getContext(), 412, title, Detail, ErrorCode, Link, CorrelationId, null, LogMessageDetails);
+		SiemensErrorMessageProvider err = new SiemensErrorMessageProvider(getContext(), statusCode, title, Detail, ErrorCode, Link, CorrelationId, null, LogMessageDetails);
 		
-		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HttpResponse, 412, err.getJSONResponseMessage(), reasonPhrase);
+		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HttpResponse, statusCode, err.getJSONResponseMessage(), reasonPhrase);
 		
 		return rp.getResponse();
 		// END USER CODE
