@@ -13,7 +13,7 @@ To get the example to work you simply need to:
 ![image](https://user-images.githubusercontent.com/6952957/137190727-34077bb1-459a-4819-84dc-e0446a824743.png)
 
 ## Siemens Guidelines
-From version 3.0.0 onwards, the HTTP responses defined here are complient with the Siemens API Guidelines. The Siemens Guidelines offer a clear and concise guide on response handling. They have been incorporated into our own API Guidelines. Read more here:
+From version 3.0.0 onwards, the HTTP responses defined here are complient with the Siemens API Guidelines. The Siemens Guidelines offer a clear and concise guide on response handling. They have been incorporated into the Mendix API Guidelines. Read more here:
 - Siemens Guidelines: https://developer.internal.siemens.com/guidelines/api-guidelines/rest/index.html
 - Mendix Guidelines: https://mendix.atlassian.net/wiki/x/AYBPeQ
 
@@ -29,10 +29,7 @@ The old java actions are still there for backwards compatability. However they s
 - You're registering your API on the API Gateway
 
 ## How to use
-The definition of the HTTP responses has been abstracted away in a suite of java actions. They are exposed as microflows. In your processing logic, create a new HTTP response or make sure an HTTP response object is defined as an import parameter. Add a blank action to your logic, right-click and select 'Set type of action'. Scroll down to the HTTP Responses section and select the response you require. Fill out the properties in the popup box. See below for more information on the use of the properties.
-
-## 2XX Responses
-A note on Success (2XX) responses.
+The definition of the HTTP responses has been abstracted away in a suite of java actions. They are exposed as microflows. In your processing logic, create a new HttpResponse object or make sure an HttpResponse object is defined as an import parameter. Add a blank action to your logic, right-click and select 'Set type of action'. Scroll down to the HTTP Responses section and select the response you require. Fill out the properties in the popup box. See below for more information on the use of the properties.
 
 ### Correlation ID
 This is a UUID that the client receives in case of errors. It can be used for trouble shooting purposes.
@@ -48,7 +45,7 @@ An application specific error code. This code can be useful when trouble shootin
 Don't let the client guess why the request failed. All client errors should be documented in the API specs. In addition, validation of data should be documented in the public documentation at docs.mendix.com. Provide a link to the documentation where users of a client can learn more on why the request failed.
 
 ### Authentication schema
-When issuing response `401`, a `WWW-Authenticate` header must accompany the response. This header will tell the client which authentication schema to use to get the proper authentication. Which schema to enter depends on the type of authentication you allow on your API endpoint. In most cases this will be the UAT Bearer token. In that case the header will read something like this:
+When issuing response `401`, a `WWW-Authenticate` header should accompany the response. This header will tell the client which authentication schema to use to get the proper authentication. Which schema to enter depends on the type of authentication you allow on your API endpoint. In most cases this will be the UAT Bearer token. In that case the header will read something like this:
 ```
 WWW-Authenticate: Bearer realm="login.mendix.com", scope="my:scope1 my:scope2", error="invalid_token"
 ```
