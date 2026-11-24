@@ -28,8 +28,20 @@ The old java actions are still there for backwards compatability. However they s
 - You're updating your existing API to a new major version
 - You're registering your API on the API Gateway
 
-## How to use
+## Properties
 The definition of the HTTP responses has been abstracted away in a suite of java actions. They are exposed as microflows. In your processing logic, create a new HttpResponse object or make sure an HttpResponse object is defined as an import parameter. Add a blank action to your logic, right-click and select 'Set type of action'. Scroll down to the HTTP Responses section and select the response you require. Fill out the properties in the popup box. See below for more information on the use of the properties.
+
+### Content
+A series of java actions have been implemented to help you construct the Content attribute of the 2xx response.
+- Get_Metadata - returns a Metadata object with the parameters set on an associated Page object
+- Get_Links_Offset - returns a Links object with offset based pagination URL's
+- Get_Root - returns a Root object with Data, Metadata, and Links associated with it. Use this in your export mapping
+
+When calling Get_Root, exactly one of Data or DataList must be supplied, or the action throws an error.
+
+If your `200` response calls for an array of Data objects to be returned, pagination is implied. In this case when calling Get_Root Metadata and Links should not be empty.
+
+In your implementation module allow all non-peristent entities that you use to return data inherit from this module's Data object. Copy one of the JSON examples in folder 'Example' and adjust the Data object or array, according to your requirements. Use this adjusted JSON structure as the basis for your export mapping.
 
 ### Correlation ID
 This is a UUID that the client receives in case of errors. It can be used for trouble shooting purposes.

@@ -45,7 +45,7 @@ public class Set_Response_303 extends UserAction<IMendixObject>
 		String reasonPhrase = "See Other";
 
 		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HttpResponse, statusCode, null, reasonPhrase);
-		if( Location != null && "" != Location) {
+		if (Location != null && !Location.isEmpty()) {
 			rp.setOrOverrideHttpHeader("Location", this.Location);
 		}
 

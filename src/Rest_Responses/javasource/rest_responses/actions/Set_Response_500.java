@@ -52,6 +52,7 @@ public class Set_Response_500 extends UserAction<IMendixObject>
 		SiemensErrorMessageProvider err = new SiemensErrorMessageProvider(getContext(), statusCode, title, null, null, null, CorrelationId, null, LogMessageDetails);
 		
 		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HttpResponse, statusCode, err.getJSONResponseMessage(), reasonPhrase);
+		rp.setOrOverrideHttpHeader("Content-Type", "application/json");
 		
 		return rp.getResponse();
 		// END USER CODE

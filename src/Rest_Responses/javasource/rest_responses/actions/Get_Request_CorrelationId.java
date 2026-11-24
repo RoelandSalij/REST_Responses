@@ -16,6 +16,8 @@ import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.systemwideinterfaces.core.IMendixObject;
 import com.mendix.systemwideinterfaces.core.UserAction;
 
+import rest_responses.proxies.constants.Constants;
+
 /**
  * Returns the correltaion ID from the header of the HTTP request. If no such header exists, or if the HTTP request object is not prpovided, a UUID will be generated.
  */
@@ -41,9 +43,9 @@ public class Get_Request_CorrelationId extends UserAction<java.lang.String>
 	{
 		// BEGIN USER CODE
 		String correlationId = UUID.randomUUID().toString();
-		String headerName = (String) Core.getConfiguration().getConstantValue("REST_Responses.HeaderName_CorrelationId");
+		String headerName = (String) Constants.getHeaderName_CorrelationId();
 
-		if (HttpRequest != null) {
+		if (HttpRequest != null && headerName != null && !headerName.isEmpty()) {
 			List<IMendixObject> headers = Core.retrieveByPath(
 				getContext(),
 				HttpRequest.getMendixObject(),

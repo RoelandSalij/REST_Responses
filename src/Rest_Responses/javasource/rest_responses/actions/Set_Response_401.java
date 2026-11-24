@@ -70,6 +70,7 @@ public class Set_Response_401 extends UserAction<IMendixObject>
 		SiemensErrorMessageProvider err = new SiemensErrorMessageProvider(getContext(), statusCode, title, Detail, ErrorCode, Link, CorrelationId, null, LogMessageDetails);
 		
 		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HttpResponse, statusCode, err.getJSONResponseMessage(), reasonPhrase);
+		rp.setOrOverrideHttpHeader("Content-Type", "application/json");
 		rp.setOrOverrideHttpHeader("WWW-Authenticate", this.WWWAuthenticate);
 		
 		return rp.getResponse();
