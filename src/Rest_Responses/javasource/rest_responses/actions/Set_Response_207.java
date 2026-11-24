@@ -45,6 +45,9 @@ public class Set_Response_207 extends UserAction<IMendixObject>
 		String reasonPhrase = "Multi-Status";
 
 		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HttpResponse, statusCode, this.Content, reasonPhrase);
+		if (this.Content != null && !this.Content.isBlank()) {
+			rp.setOrOverrideHttpHeader("Content-Type", "application/json");
+		}
 
 		return rp.getResponse();
 		// END USER CODE

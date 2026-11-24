@@ -48,7 +48,10 @@ public class Set_Response_201 extends UserAction<IMendixObject>
 		String reasonPhrase = "Created";
 
 		RESTResponseProvider rp = new RESTResponseProvider(this.getContext(), this.HttpResponse, statusCode, this.Content, reasonPhrase);
-		if( Location != null && "" != Location) {
+		if (this.Content != null && !this.Content.isBlank()) {
+			rp.setOrOverrideHttpHeader("Content-Type", "application/json");
+		}
+		if (Location != null && !Location.isEmpty()) {
 			rp.setOrOverrideHttpHeader("Location", this.Location);
 		}
 
