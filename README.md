@@ -13,17 +13,18 @@ To get the example to work you simply need to:
 ![image](https://user-images.githubusercontent.com/6952957/137190727-34077bb1-459a-4819-84dc-e0446a824743.png)
 
 ## Siemens Guidelines
-From version 3.0.0 onwards, the HTTP responses defined here are complient with the Siemens API Guidelines. The Siemens Guidelines offer a clear and concise guide on response handling. They have been incorporated into the Mendix API Guidelines. Read more here:
-- Siemens Guidelines: https://developer.internal.siemens.com/guidelines/api-guidelines/rest/index.html
+From version 3.0.0 of this module onwards, the HTTP responses defined here are in compliance with the Siemens API Guidelines. The Siemens Guidelines offer a clear and concise guide on response handling. They have been incorporated into the Mendix API Guidelines. Read more about the guidelines here:
 - Mendix Guidelines: https://mendix.atlassian.net/wiki/x/AYBPeQ
 
-The Siemens guidelines describe that only the most commonly used HTTP responses should be used when handling a client's request. In addition, some of the responses are issued by the Mendix runtime or by the API Gateway. These responses are not defined here. In short, the following responses are defined in this module:
+The new guidelines describe that only the most commonly used HTTP responses should be used when handling a client's request. In addition, some of the responses are issued by the Mendix runtime or by the API Gateway. These responses are not defined here. In short, the following responses are defined in this module:
 - 200, 201, 202, 204, 207
 - 301, 303, 304
 - 400, 401, 404, 406, 409, 410, 412, 415
 - 500
 
-The old java actions are still there for backwards compatability. However they should only be used for maintenance on existing API's. Use the new Siemens compliant java actions if
+The old java actions are still there for backwards compatibility. However they should only be used for maintenance on existing API's.
+
+Use the new java actions if
 - You're building a new API
 - You're updating your existing API to a new major version
 - You're registering your API on the API Gateway
@@ -34,14 +35,14 @@ The definition of the HTTP responses has been abstracted away in a suite of java
 ### Content
 A series of java actions have been implemented to help you construct the Content attribute of the 2xx response.
 - Get_Metadata - returns a Metadata object with the parameters set on an associated Page object
-- Get_Links_Offset - returns a Links object with offset based pagination URL's
+- Get_Links_Offset - returns a Links object with offset based pagination URLs
 - Get_Root - returns a Root object with Data, Metadata, and Links associated with it. Use this in your export mapping
 
 When calling Get_Root, exactly one of Data or DataList must be supplied, or the action throws an error.
 
 If your `200` response calls for an array of Data objects to be returned, pagination is implied. In this case when calling Get_Root Metadata and Links should not be empty.
 
-In your implementation module allow all non-peristent entities that you use to return data inherit from this module's Data object. Copy one of the JSON examples in folder 'Example' and adjust the Data object or array, according to your requirements. Use this adjusted JSON structure as the basis for your export mapping.
+In your implementation module allow all non-persistent entities that you use to return data inherit from this module's Data object. Copy one of the JSON examples in folder 'Example' and adjust the Data object or array, according to your requirements. Use this adjusted JSON structure as the basis for your export mapping.
 
 ### Correlation ID
 This is a UUID that the client receives in case of errors. It can be used for trouble shooting purposes.
